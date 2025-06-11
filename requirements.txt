@@ -1,0 +1,4 @@
+Django>=4.2.0
+psycopg2-binary>=2.9.0
+django-tailwind>=3.6.0
+django-browser-reload>=1.12.0 
