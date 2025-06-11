@@ -1,0 +1,166 @@
+{% extends 'base.html' %} {% block title %} {% if form.instance.pk %}Edit
+Project{% else %}Create New Project{% endif %} - RoboPlanner {% endblock %} {%
+block content %}
+<div class="form-container" style="max-width: 600px; margin: 0 auto">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="card-title">
+        {% if form.instance.pk %}
+        <span class="text-primary">Edit Project</span>
+        {% else %}
+        <span class="text-primary">Create New Project</span>
+        {% endif %}
+      </h1>
+      <p class="text-muted">
+        {% if form.instance.pk %} Update the details of your robotics project {%
+        else %} Start planning your next robotics project {% endif %}
+      </p>
+    </div>
+
+    <div class="card-body">
+      <form method="post" novalidate>
+        {% csrf_token %} {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+          {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+          <label for="{{ form.project_name.id_for_label }}" class="form-label">
+            Project Name
+            <span class="text-danger" aria-label="required">*</span>
+          </label>
+          {{ form.project_name }} {% if form.project_name.errors %}
+          <div class="text-danger mt-1" role="alert">
+            {% for error in form.project_name.errors %}
+            <small>{{ error }}</small>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <small class="text-muted">
+            Give your project a descriptive name (e.g., "Arduino LED Matrix",
+            "Raspberry Pi Robot Car")
+          </small>
+        </div>
+
+        <div class="form-actions flex gap-2 mt-4">
+          <button type="submit" class="btn btn-primary">
+            {% if form.instance.pk %}
+            <span aria-hidden="true">💾</span> Update Project {% else %}
+            <span aria-hidden="true">🚀</span> Create Project {% endif %}
+          </button>
+
+          <a
+            href="{% if form.instance.pk %}{% url 'projects:detail' form.instance.pk %}{% else %}{% url 'projects:dashboard' %}{% endif %}"
+            class="btn btn-outline"
+          >
+            Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {% if form.instance.pk %}
+  <!-- Quick Actions for existing project -->
+  <div class="quick-actions mt-4">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title">Quick Actions</h2>
+        <p class="text-muted">Jump to common project tasks</p>
+      </div>
+      <div class="card-body">
+        <div class="grid grid-2">
+          <a
+            href="{% url 'projects:part_create' form.instance.pk %}"
+            class="btn btn-secondary btn-sm"
+          >
+            <span aria-hidden="true">📦</span> Add Parts
+          </a>
+          <a
+            href="{% url 'projects:tool_create' form.instance.pk %}"
+            class="btn btn-secondary btn-sm"
+          >
+            <span aria-hidden="true">🔧</span> Add Tools
+          </a>
+          <a
+            href="{% url 'projects:note_create' form.instance.pk %}"
+            class="btn btn-secondary btn-sm"
+          >
+            <span aria-hidden="true">📝</span> Add Notes
+          </a>
+          <a
+            href="{% url 'projects:moodboard_create' form.instance.pk %}"
+            class="btn btn-secondary btn-sm"
+          >
+            <span aria-hidden="true">🖼️</span> Add Images
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <!-- Next Steps for new project -->
+  <div class="next-steps mt-4">
+    <div class="card" style="background: #f0f9ff; border-color: #bfdbfe">
+      <div class="card-body text-center">
+        <h3 class="text-primary mb-2">What's Next?</h3>
+        <p class="text-muted mb-3">
+          After creating your project, you'll be able to add parts, tools,
+          notes, and inspiration images.
+        </p>
+        <div class="next-steps-preview grid grid-2" style="gap: 1rem">
+          <div class="step">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem">📦</div>
+            <strong>Add Components</strong>
+            <p class="text-sm text-muted">Track parts and quantities</p>
+          </div>
+          <div class="step">
+            <div style="font-size: 1.5rem; margin-bottom: 0.5rem">💰</div>
+            <strong>Track Costs</strong>
+            <p class="text-sm text-muted">Monitor your budget</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %} {% block extra_head %}
+<style>
+  .form-actions {
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .quick-actions .grid {
+    gap: 0.75rem;
+  }
+
+  .next-steps-preview .step {
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .text-sm {
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 768px) {
+    .form-actions {
+      flex-direction: column;
+    }
+
+    .form-actions .btn {
+      justify-content: center;
+    }
+
+    .quick-actions .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+{% endblock %}
