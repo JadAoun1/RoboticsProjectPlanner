@@ -160,6 +160,11 @@ class ProjectNoteCreateView(LoginRequiredMixin, CreateView):
         form.instance.project = project
         return super().form_valid(form)
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = get_object_or_404(Project, pk=self.kwargs['project_id'], user=self.request.user)
+        return context
+    
     def get_success_url(self):
         return reverse_lazy('projects:detail', kwargs={'pk': self.kwargs['project_id']})
 
@@ -171,6 +176,11 @@ class ProjectNoteUpdateView(LoginRequiredMixin, UpdateView):
     
     def get_queryset(self):
         return ProjectNote.objects.filter(project__user=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.object.project
+        return context
     
     def get_success_url(self):
         return reverse_lazy('projects:detail', kwargs={'pk': self.object.project.pk})
@@ -198,6 +208,11 @@ class MoodboardImageCreateView(LoginRequiredMixin, CreateView):
         form.instance.project = project
         return super().form_valid(form)
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = get_object_or_404(Project, pk=self.kwargs['project_id'], user=self.request.user)
+        return context
+    
     def get_success_url(self):
         return reverse_lazy('projects:detail', kwargs={'pk': self.kwargs['project_id']})
 
@@ -209,6 +224,11 @@ class MoodboardImageUpdateView(LoginRequiredMixin, UpdateView):
     
     def get_queryset(self):
         return MoodboardImage.objects.filter(project__user=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['project'] = self.object.project
+        return context
     
     def get_success_url(self):
         return reverse_lazy('projects:detail', kwargs={'pk': self.object.project.pk})
