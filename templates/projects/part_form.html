@@ -1,0 +1,273 @@
+{% extends 'base.html' %} {% block title %} {% if form.instance.pk %}Edit Part{%
+else %}Add Part{% endif %} - {{ project.project_name }} - RoboPlanner {%
+endblock %} {% block content %}
+<div class="form-container" style="max-width: 600px; margin: 0 auto">
+  <!-- Breadcrumb Navigation -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <div class="breadcrumb text-sm text-muted">
+      <a href="{% url 'projects:dashboard' %}" class="text-primary"
+        >My Projects</a
+      >
+      <span class="mx-2">›</span>
+      <a href="{% url 'projects:detail' project.pk %}" class="text-primary"
+        >{{ project.project_name }}</a
+      >
+      <span class="mx-2">›</span>
+      <span
+        >{% if form.instance.pk %}Edit Part{% else %}Add Part{% endif %}</span
+      >
+    </div>
+  </nav>
+
+  <div class="card">
+    <div class="card-header">
+      <h1 class="card-title">
+        <span aria-hidden="true">📦</span>
+        {% if form.instance.pk %}
+        <span class="text-primary">Edit Part</span>
+        {% else %}
+        <span class="text-primary">Add New Part</span>
+        {% endif %}
+      </h1>
+      <p class="text-muted">
+        {% if form.instance.pk %} Update the details of this component {% else
+        %} Add a new component to your project {% endif %}
+      </p>
+    </div>
+
+    <div class="card-body">
+      <form method="post" novalidate>
+        {% csrf_token %} {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+          {% for error in form.non_field_errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+          <label for="{{ form.part_name.id_for_label }}" class="form-label">
+            Part Name <span class="text-danger" aria-label="required">*</span>
+          </label>
+          {{ form.part_name }} {% if form.part_name.errors %}
+          <div class="text-danger mt-1" role="alert">
+            {% for error in form.part_name.errors %}
+            <small>{{ error }}</small>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <small class="text-muted">
+            Be specific (e.g., "Arduino Uno R3", "LED 5mm Red", "Resistor 220Ω")
+          </small>
+        </div>
+
+        <div class="form-row grid grid-2">
+          <div class="form-group">
+            <label for="{{ form.quantity.id_for_label }}" class="form-label">
+              Quantity <span class="text-danger" aria-label="required">*</span>
+            </label>
+            {{ form.quantity }} {% if form.quantity.errors %}
+            <div class="text-danger mt-1" role="alert">
+              {% for error in form.quantity.errors %}
+              <small>{{ error }}</small>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <small class="text-muted"> How many do you need? </small>
+          </div>
+
+          <div class="form-group">
+            <label
+              for="{{ form.estimated_cost_per_unit.id_for_label }}"
+              class="form-label"
+            >
+              Estimated Cost (per unit)
+            </label>
+            <div class="input-group">
+              <span class="input-prefix">$</span>
+              {{ form.estimated_cost_per_unit }}
+            </div>
+            {% if form.estimated_cost_per_unit.errors %}
+            <div class="text-danger mt-1" role="alert">
+              {% for error in form.estimated_cost_per_unit.errors %}
+              <small>{{ error }}</small>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <small class="text-muted"> Budget planning cost estimate </small>
+          </div>
+        </div>
+
+        {% if form.instance.pk %}
+        <div class="form-group">
+          <label
+            for="{{ form.actual_cost_per_unit.id_for_label }}"
+            class="form-label"
+          >
+            Actual Cost (per unit)
+          </label>
+          <div class="input-group">
+            <span class="input-prefix">$</span>
+            {{ form.actual_cost_per_unit }}
+          </div>
+          {% if form.actual_cost_per_unit.errors %}
+          <div class="text-danger mt-1" role="alert">
+            {% for error in form.actual_cost_per_unit.errors %}
+            <small>{{ error }}</small>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <small class="text-muted">
+            What you actually paid (leave blank if not purchased yet)
+          </small>
+        </div>
+        {% endif %}
+
+        <div class="form-group">
+          <label for="{{ form.notes.id_for_label }}" class="form-label">
+            Notes
+          </label>
+          {{ form.notes }} {% if form.notes.errors %}
+          <div class="text-danger mt-1" role="alert">
+            {% for error in form.notes.errors %}
+            <small>{{ error }}</small>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <small class="text-muted">
+            Specifications, supplier info, or other details
+          </small>
+        </div>
+
+        <!-- Cost Preview -->
+        <div
+          class="cost-preview card"
+          style="background: #f0f9ff; border-color: #bfdbfe; margin: 1.5rem 0"
+        >
+          <div class="card-body">
+            <h3 class="text-primary mb-2">Cost Preview</h3>
+            <div id="cost-calculation" class="text-muted">
+              Enter quantity and cost to see total
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions flex gap-2 mt-4">
+          <button type="submit" class="btn btn-primary">
+            {% if form.instance.pk %}
+            <span aria-hidden="true">💾</span> Update Part {% else %}
+            <span aria-hidden="true">📦</span> Add Part {% endif %}
+          </button>
+
+          <a
+            href="{% url 'projects:detail' project.pk %}"
+            class="btn btn-outline"
+          >
+            Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_head %}
+<style>
+  .breadcrumb {
+    padding: 0.75rem 0;
+  }
+
+  .form-row {
+    gap: 1rem;
+  }
+
+  .input-group {
+    position: relative;
+    display: flex;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .input-group input {
+    padding-left: 2rem;
+  }
+
+  .form-actions {
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+      flex-direction: column;
+    }
+
+    .form-actions .btn {
+      justify-content: center;
+    }
+  }
+</style>
+{% endblock %} {% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const quantityInput = document.getElementById(
+      "{{ form.quantity.id_for_label }}"
+    );
+    const estimatedCostInput = document.getElementById(
+      "{{ form.estimated_cost_per_unit.id_for_label }}"
+    );
+    const actualCostInput = document.getElementById(
+      "{{ form.actual_cost_per_unit.id_for_label }}"
+    );
+    const costCalculation = document.getElementById("cost-calculation");
+
+    function updateCostPreview() {
+      const quantity = parseInt(quantityInput.value) || 0;
+      const estimatedCost = parseFloat(estimatedCostInput.value) || 0;
+      const actualCost = actualCostInput
+        ? parseFloat(actualCostInput.value) || 0
+        : 0;
+
+      if (quantity > 0) {
+        let preview = `<strong>${quantity} unit${quantity !== 1 ? "s" : ""}</strong><br>`;
+
+        if (estimatedCost > 0) {
+          const estimatedTotal = quantity * estimatedCost;
+          preview += `Estimated Total: <span class="text-primary">$${estimatedTotal.toFixed(2)}</span><br>`;
+        }
+
+        if (actualCost > 0) {
+          const actualTotal = quantity * actualCost;
+          preview += `Actual Total: <span class="text-secondary">$${actualTotal.toFixed(2)}</span>`;
+        }
+
+        costCalculation.innerHTML = preview;
+      } else {
+        costCalculation.innerHTML = "Enter quantity and cost to see total";
+      }
+    }
+
+    // Update preview on input change
+    quantityInput.addEventListener("input", updateCostPreview);
+    estimatedCostInput.addEventListener("input", updateCostPreview);
+    if (actualCostInput) {
+      actualCostInput.addEventListener("input", updateCostPreview);
+    }
+
+    // Initial calculation
+    updateCostPreview();
+  });
+</script>
+{% endblock %}
