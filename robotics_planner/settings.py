@@ -38,10 +38,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # Third party apps
-    "tailwind",
-    "theme",
-    "django_browser_reload",
     # Local apps
     "accounts",
     "projects",
@@ -55,7 +51,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = "robotics_planner.urls"
@@ -140,9 +135,6 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-
-# Tailwind CSS settings
-TAILWIND_APP_NAME = 'theme'
 
 # Login/Logout URLs
 LOGIN_URL = 'accounts:login'
