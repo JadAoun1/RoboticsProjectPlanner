@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if form.instance.pk %}
+    Edit Project - {{ form.instance.project_name }}
+  {% else %}
+    Create New Project
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="form-container" style="max-width: 800px; margin: 2rem auto;">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="card-title">
+        {% if form.instance.pk %}
+          Edit "{{ form.instance.project_name }}"
+        {% else %}
+          Create a New Project
+        {% endif %}
+      </h1>
+      <p class="text-muted">
+        {% if form.instance.pk %}
+          Update the details for your project.
+        {% else %}
+          Start by giving your new robotics project a name and description.
+        {% endif %}
+      </p>
+    </div>
+    <div class="card-body">
+      <form method="post" novalidate>
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger" role="alert">
+            {% for error in form.non_field_errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% for field in form %}
+          <div class="form-group">
+            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+              <small class="form-text text-muted">{{ field.help_text|safe }}</small>
+            {% endif %}
+            {% for error in field.errors %}
+              <div class="text-danger mt-1" role="alert">
+                <small>{{ error }}</small>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+        <div class="form-actions flex flex-end gap-1 mt-4" style="border-top: 1px solid var(--border); padding-top: 1.5rem;">
+          <a href="{% if form.instance.pk %}{% url 'projects:detail' form.instance.pk %}{% else %}{% url 'projects:dashboard' %}{% endif %}" class="btn btn-secondary">
+            Cancel
+          </a>
+          <button type="submit" class="btn btn-primary">
+            {% if form.instance.pk %}
+              Save Changes
+            {% else %}
+              Create Project
+            {% endif %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

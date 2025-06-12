@@ -1,5 +1,8 @@
-{% extends 'base.html' %} {% block title %}My Projects - RoboPlanner{% endblock
-%} {% block content %}
+{% extends 'base.html' %}
+
+{% block title %}My Projects - RoboPlanner{% endblock %}
+
+{% block content %}
 <div class="dashboard-header flex flex-between items-center mb-4">
   <div>
     <h1 class="text-primary" style="font-size: 2rem; margin-bottom: 0.5rem">
@@ -7,7 +10,7 @@
     </h1>
     <p class="text-muted">
       {% if projects %} You have {{ projects|length }} project{{
-      projects|length|pluralize }} {% else %} Ready to start your first robotics
+      projects|length|pluralize }}. {% else %} Ready to start your first robotics
       project? {% endif %}
     </p>
   </div>
@@ -94,7 +97,6 @@
   {% endfor %}
 </div>
 {% else %}
-<!-- Empty State - Great UX for first-time users -->
 <div class="empty-state text-center" style="padding: 4rem 2rem">
   <div class="empty-icon" style="font-size: 4rem; margin-bottom: 1rem">🤖</div>
   <h2 class="text-primary mb-3">Welcome to RoboPlanner!</h2>
@@ -109,89 +111,51 @@
   >
     <span aria-hidden="true">+</span> Create Your First Project
   </a>
-
-  <div class="getting-started mt-4">
-    <h3 class="text-secondary mb-2">What you can do:</h3>
-    <div
-      class="feature-list grid grid-3"
-      style="max-width: 600px; margin: 2rem auto 0"
-    >
-      <div class="feature text-center">
-        <div style="font-size: 2rem; margin-bottom: 0.5rem">📦</div>
-        <strong>Track Parts</strong>
-        <p class="text-muted text-sm">Manage components and quantities</p>
-      </div>
-      <div class="feature text-center">
-        <div style="font-size: 2rem; margin-bottom: 0.5rem">🔧</div>
-        <strong>List Tools</strong>
-        <p class="text-muted text-sm">Keep track of required tools</p>
-      </div>
-      <div class="feature text-center">
-        <div style="font-size: 2rem; margin-bottom: 0.5rem">💰</div>
-        <strong>Budget Tracking</strong>
-        <p class="text-muted text-sm">Monitor project costs</p>
-      </div>
-    </div>
-  </div>
 </div>
-{% endif %} {% endblock %} {% block extra_head %}
+{% endif %}
+{% endblock %}
+
+{% block extra_head %}
 <style>
-  /* Dashboard-specific styles for enhanced UX */
-  .project-card-header {
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .project-stats {
-    background: #f8fafc;
-    padding: 1rem;
-    border-radius: 0.375rem;
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    background-color: var(--surface);
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
   }
-
-  .stat {
-    text-align: center;
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   }
-
-  .stat-number {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 700;
-    line-height: 1;
+  .project-card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
   }
-
-  .stat-label {
-    display: block;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  .project-summary {
+    padding: 1.25rem;
+    flex-grow: 1;
   }
-
-  .text-sm {
-    font-size: 0.875rem;
+  .project-actions {
+    padding: 1rem 1.25rem;
+    background-color: #f8fafc;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
   }
-
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
   .empty-state {
     background: var(--surface);
     border: 2px dashed var(--border);
     border-radius: 0.5rem;
   }
-
-  .feature-list .feature {
-    padding: 1rem;
-  }
-
-  @media (max-width: 768px) {
-    .dashboard-header {
-      flex-direction: column;
-      gap: 1rem;
-      text-align: center;
-    }
-
-    .project-stats {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
 </style>
-{% endblock %}
+{% endblock %} 

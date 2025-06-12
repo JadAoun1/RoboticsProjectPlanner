@@ -1,6 +1,6 @@
-{% extends 'base.html' %} {% block title %} {% if form.instance.pk %}Edit Note{%
+{% extends 'base.html' %}`r`n`r`n{% block title %} {% if form.instance.pk %}Edit Note{%
 else %}Add Note{% endif %} - {{ project.project_name }} - RoboPlanner {%
-endblock %} {% block content %}
+endblock %}`r`n`r`n{% block content %}
 <div class="form-container" style="max-width: 700px; margin: 0 auto">
   <!-- Breadcrumb Navigation -->
   <nav aria-label="breadcrumb" class="mb-3">
@@ -175,7 +175,7 @@ endblock %} {% block content %}
     </div>
   </div>
 </div>
-{% endblock %} {% block extra_head %}
+{% endblock %}`r`n`r`n{% block extra_head %}
 <style>
   .breadcrumb {
     padding: 0.75rem 0;
@@ -226,7 +226,7 @@ endblock %} {% block content %}
     }
   }
 </style>
-{% endblock %} {% block extra_js %}
+{% endblock %}`r`n`r`n{% block extra_js %}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const contentTextarea = document.getElementById(
@@ -338,3 +338,4 @@ endblock %} {% block content %}
   });
 </script>
 {% endblock %}
+
