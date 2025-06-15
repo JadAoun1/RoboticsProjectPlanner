@@ -1,35 +1,52 @@
-{% extends 'base.html' %} {% block title %} {% if form.instance.pk %} Edit
-Project - {{ form.instance.project_name }} {% else %} Create New Project {%
-endif %} {% endblock %} {% block content %}
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Edit Project - {{ form.instance.project_name }}
+    {% else %}
+        Create New Project
+    {% endif %}
+{% endblock %}
+
+{% block content %}
 <div class="form-container" style="max-width: 800px; margin: 2rem auto">
   <div class="card">
     <div class="card-header">
       <h1 class="card-title">
-        {% if form.instance.pk %} Edit "{{ form.instance.project_name }}" {%
-        else %} Create a New Project {% endif %}
+        {% if form.instance.pk %}
+            Edit "{{ form.instance.project_name }}"
+        {% else %}
+            Create a New Project
+        {% endif %}
       </h1>
       <p class="text-muted">
-        {% if form.instance.pk %} Update the details for your project. {% else
-        %} Start by giving your new robotics project a name and description. {%
-        endif %}
+        {% if form.instance.pk %}
+            Update the details for your project.
+        {% else %}
+            Start by giving your new robotics project a name and description.
+        {% endif %}
       </p>
     </div>
     <div class="card-body">
       <form method="post" novalidate>
-        {% csrf_token %} {% if form.non_field_errors %}
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
         <div class="alert alert-danger" role="alert">
           {% for error in form.non_field_errors %}
           <p>{{ error }}</p>
           {% endfor %}
         </div>
-        {% endif %} {% for field in form %}
+        {% endif %}
+        
+        {% for field in form %}
         <div class="form-group">
-          <label for="{{ field.id_for_label }}" class="form-label"
-            >{{ field.label }}</label
-          >
-          {{ field }} {% if field.help_text %}
+          <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+          {{ field }}
+          {% if field.help_text %}
           <small class="form-text text-muted">{{ field.help_text|safe }}</small>
-          {% endif %} {% for error in field.errors %}
+          {% endif %}
+          {% for error in field.errors %}
           <div class="text-danger mt-1" role="alert">
             <small>{{ error }}</small>
           </div>
@@ -48,8 +65,11 @@ endif %} {% endblock %} {% block content %}
             Cancel
           </a>
           <button type="submit" class="btn btn-primary">
-            {% if form.instance.pk %} Save Changes {% else %} Create Project {%
-            endif %}
+            {% if form.instance.pk %}
+                Save Changes
+            {% else %}
+                Create Project
+            {% endif %}
           </button>
         </div>
       </form>

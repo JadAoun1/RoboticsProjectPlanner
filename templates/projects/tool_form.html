@@ -1,21 +1,23 @@
-{% extends 'base.html' %}`r`n`r`n{% block title %} {% if form.instance.pk %}Edit Tool{%
-else %}Add Tool{% endif %} - {{ project.project_name }} - RoboPlanner {%
-endblock %}`r`n`r`n{% block content %}
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Edit Tool
+    {% else %}
+        Add Tool
+    {% endif %} - {{ project.project_name }} - RoboPlanner
+{% endblock %}
+
+{% block content %}
 <div class="form-container" style="max-width: 600px; margin: 0 auto">
   <!-- Breadcrumb Navigation -->
   <nav aria-label="breadcrumb" class="mb-3">
     <div class="breadcrumb text-sm text-muted">
-      <a href="{% url 'projects:dashboard' %}" class="text-primary"
-        >My Projects</a
-      >
+      <a href="{% url 'projects:dashboard' %}" class="text-primary">My Projects</a>
       <span class="mx-2">›</span>
-      <a href="{% url 'projects:detail' project.pk %}" class="text-primary"
-        >{{ project.project_name }}</a
-      >
+      <a href="{% url 'projects:detail' project.pk %}" class="text-primary">{{ project.project_name }}</a>
       <span class="mx-2">›</span>
-      <span
-        >{% if form.instance.pk %}Edit Tool{% else %}Add Tool{% endif %}</span
-      >
+      <span>{% if form.instance.pk %}Edit Tool{% else %}Add Tool{% endif %}</span>
     </div>
   </nav>
 
@@ -30,14 +32,19 @@ endblock %}`r`n`r`n{% block content %}
         {% endif %}
       </h1>
       <p class="text-muted">
-        {% if form.instance.pk %} Update the tool details {% else %} Add a tool
-        required for this project {% endif %}
+        {% if form.instance.pk %}
+            Update the tool details
+        {% else %}
+            Add a tool required for this project
+        {% endif %}
       </p>
     </div>
 
     <div class="card-body">
       <form method="post" novalidate>
-        {% csrf_token %} {% if form.non_field_errors %}
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
         <div class="alert alert-danger" role="alert">
           {% for error in form.non_field_errors %}
           <p>{{ error }}</p>
@@ -49,7 +56,8 @@ endblock %}`r`n`r`n{% block content %}
           <label for="{{ form.tool_name.id_for_label }}" class="form-label">
             Tool Name <span class="text-danger" aria-label="required">*</span>
           </label>
-          {{ form.tool_name }} {% if form.tool_name.errors %}
+          {{ form.tool_name }}
+          {% if form.tool_name.errors %}
           <div class="text-danger mt-1" role="alert">
             {% for error in form.tool_name.errors %}
             <small>{{ error }}</small>
@@ -65,7 +73,8 @@ endblock %}`r`n`r`n{% block content %}
           <label for="{{ form.notes.id_for_label }}" class="form-label">
             Notes & Details
           </label>
-          {{ form.notes }} {% if form.notes.errors %}
+          {{ form.notes }}
+          {% if form.notes.errors %}
           <div class="text-danger mt-1" role="alert">
             {% for error in form.notes.errors %}
             <small>{{ error }}</small>
@@ -98,8 +107,10 @@ endblock %}`r`n`r`n{% block content %}
         <div class="form-actions flex gap-2 mt-4">
           <button type="submit" class="btn btn-primary">
             {% if form.instance.pk %}
-            <span aria-hidden="true">💾</span> Update Tool {% else %}
-            <span aria-hidden="true">🔧</span> Add Tool {% endif %}
+            <span aria-hidden="true">💾</span> Update Tool
+            {% else %}
+            <span aria-hidden="true">🔧</span> Add Tool
+            {% endif %}
           </button>
 
           <a
@@ -138,7 +149,9 @@ endblock %}`r`n`r`n{% block content %}
   </div>
   {% endif %}
 </div>
-{% endblock %}`r`n`r`n{% block extra_head %}
+{% endblock %}
+
+{% block extra_head %}
 <style>
   .breadcrumb {
     padding: 0.75rem 0;
