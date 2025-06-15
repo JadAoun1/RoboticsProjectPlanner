@@ -143,8 +143,10 @@
         <div class="form-actions flex gap-2 mt-4">
           <button type="submit" class="btn btn-primary">
             {% if form.instance.pk %}
-            <span aria-hidden="true">💾</span> Update Image {% else %}
-            <span aria-hidden="true">🎨</span> Add Image {% endif %}
+            <span aria-hidden="true">💾</span> Update Image
+            {% else %}
+            <span aria-hidden="true">🎨</span> Add Image
+            {% endif %}
           </button>
 
           <a
@@ -196,7 +198,9 @@
   </div>
   {% endif %}
 </div>
-{% endblock %}`r`n`r`n{% block extra_head %}
+{% endblock %}
+
+{% block extra_head %}
 <style>
   .breadcrumb {
     padding: 0.75rem 0;
@@ -242,7 +246,9 @@
     }
   }
 </style>
-{% endblock %}`r`n`r`n{% block extra_js %}
+{% endblock %}
+
+{% block extra_js %}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const imageUrlInput = document.getElementById(

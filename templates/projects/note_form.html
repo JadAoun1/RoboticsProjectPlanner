@@ -183,7 +183,9 @@
     </div>
   </div>
 </div>
-{% endblock %}`r`n`r`n{% block extra_head %}
+{% endblock %}
+
+{% block extra_head %}
 <style>
   .breadcrumb {
     padding: 0.75rem 0;
@@ -234,7 +236,9 @@
     }
   }
 </style>
-{% endblock %}`r`n`r`n{% block extra_js %}
+{% endblock %}
+
+{% block extra_js %}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const contentTextarea = document.getElementById(
