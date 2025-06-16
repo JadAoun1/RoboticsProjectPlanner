@@ -17,7 +17,7 @@ RoboPlanner{% endblock %} {% block content %}
       href="{% url 'projects:update' project.pk %}"
       class="btn btn-outline btn-sm"
     >
-      <span aria-hidden="true">✏️</span> Edit Project
+      <span aria-hidden="true"</span> Edit Project
     </a>
     <a href="{% url 'projects:dashboard' %}" class="btn btn-secondary btn-sm">
       <span aria-hidden="true">←</span> Back to Projects
@@ -38,10 +38,6 @@ RoboPlanner{% endblock %} {% block content %}
       </div>
     </div>
     <div class="cost-breakdown text-right">
-      <p class="text-muted text-sm">
-        Based on {{ project.parts.count }} part{{ project.parts.count|pluralize
-        }}
-      </p>
     </div>
   </div>
 </div>
@@ -53,14 +49,14 @@ RoboPlanner{% endblock %} {% block content %}
   <section class="project-section" aria-labelledby="parts-heading">
     <div class="section-header flex flex-between items-center mb-3">
       <h2 id="parts-heading" class="section-title">
-        <span aria-hidden="true">📦</span> Parts
+        <span aria-hidden="true"></span> Parts
         <span class="count-badge">{{ project.parts.count }}</span>
       </h2>
       <a
         href="{% url 'projects:part_create' project.pk %}"
         class="btn btn-primary btn-sm"
       >
-        <span aria-hidden="true">+</span> Add Part
+        Add Part
       </a>
     </div>
 
@@ -71,9 +67,7 @@ RoboPlanner{% endblock %} {% block content %}
           <tr>
             <th scope="col">Part Name</th>
             <th scope="col">Quantity</th>
-            <th scope="col">Est. Cost</th>
-            <th scope="col">Actual Cost</th>
-            <th scope="col">Total</th>
+            <th scope="col">Total Cost</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -89,18 +83,6 @@ RoboPlanner{% endblock %} {% block content %}
               {% endif %}
             </td>
             <td>{{ part.quantity }}</td>
-            <td>
-              {% if part.estimated_cost_per_unit %} ${{
-              part.estimated_cost_per_unit|floatformat:2 }} {% else %}
-              <span class="text-muted">–</span>
-              {% endif %}
-            </td>
-            <td>
-              {% if part.actual_cost_per_unit %} ${{
-              part.actual_cost_per_unit|floatformat:2 }} {% else %}
-              <span class="text-muted">–</span>
-              {% endif %}
-            </td>
             <td>
               {% if part.get_total_cost > 0 %}
               <strong class="text-secondary"
@@ -159,7 +141,7 @@ RoboPlanner{% endblock %} {% block content %}
         href="{% url 'projects:tool_create' project.pk %}"
         class="btn btn-primary btn-sm"
       >
-        <span aria-hidden="true">+</span> Add Tool
+        Add Tool
       </a>
     </div>
 
@@ -218,7 +200,7 @@ RoboPlanner{% endblock %} {% block content %}
         href="{% url 'projects:note_create' project.pk %}"
         class="btn btn-primary btn-sm"
       >
-        <span aria-hidden="true">+</span> Add Note
+        Add Note
       </a>
     </div>
 
@@ -283,7 +265,7 @@ RoboPlanner{% endblock %} {% block content %}
         href="{% url 'projects:moodboard_create' project.pk %}"
         class="btn btn-primary btn-sm"
       >
-        <span aria-hidden="true">+</span> Add Image
+        Add Image
       </a>
     </div>
 

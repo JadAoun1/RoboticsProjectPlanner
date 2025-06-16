@@ -1,19 +1,15 @@
-{% extends 'base.html' %} 
-{% block title %}My Projects - RoboPlanner{% endblock %} 
-{% block content %}
+{% extends 'base.html' %} {% block title %}My Projects - RoboPlanner{% endblock
+%} {% block content %}
 <div class="dashboard-header flex flex-between items-center mb-4">
   <div>
-    <h1 class="text-primary" style="font-size: 2rem; margin-bottom: 0.5rem">
-      My Projects
-    </h1>
+    <h1 class="text-primary">My Projects</h1>
     <p class="text-muted">
-      {% if projects %} You have {{ projects|length }} project{{
-      projects|length|pluralize }}. {% else %} Ready to start your first
-      robotics project? {% endif %}
+      {% if projects %} Manage and track your robotics projects. {% else %}
+      Ready to start your first robotics project? {% endif %}
     </p>
   </div>
   <a href="{% url 'projects:create' %}" class="btn btn-primary">
-    <span aria-hidden="true">+</span> New Project
+    New Project
   </a>
 </div>
 
@@ -23,11 +19,7 @@
   <article class="project-card">
     <header class="project-card-header">
       <h2 class="project-title">
-        <a
-          href="{% url 'projects:detail' project.pk %}"
-          class="text-primary"
-          style="text-decoration: none"
-        >
+        <a href="{% url 'projects:detail' project.pk %}" class="text-primary">
           {{ project.project_name }}
         </a>
       </h2>
@@ -39,7 +31,7 @@
     </header>
 
     <div class="project-summary">
-      <div class="project-stats grid grid-2" style="gap: 1rem; margin: 1rem 0">
+      <div class="project-stats grid grid-2">
         <div class="stat">
           <span class="stat-number text-primary"
             >{{ project.parts.count }}</span
@@ -61,7 +53,7 @@
       {% if project.get_total_estimated_cost > 0 %}
       <div class="cost-summary">
         <span class="text-muted">Estimated Cost: </span>
-        <span class="cost-amount" style="font-size: 1.25rem">
+        <span class="cost-amount">
           ${{ project.get_total_estimated_cost|floatformat:2 }}
         </span>
       </div>
@@ -95,65 +87,15 @@
   {% endfor %}
 </div>
 {% else %}
-<div class="empty-state text-center" style="padding: 4rem 2rem">
-  <div class="empty-icon" style="font-size: 4rem; margin-bottom: 1rem"></div>
+<div class="empty-state text-center">
+  <div class="empty-icon"></div>
   <h2 class="text-primary mb-3">Welcome to RoboPlanner!</h2>
-  <p class="text-muted mb-4" style="max-width: 500px; margin: 0 auto">
+  <p class="text-muted mb-4">
     Start by creating your first robotics project. You can organize parts,
     tools, notes, and track costs all in one place.
   </p>
-  <a
-    href="{% url 'projects:create' %}"
-    class="btn btn-primary"
-    style="padding: 1rem 2rem"
-  >
-    <span aria-hidden="true">+</span> Create Your First Project
+  <a href="{% url 'projects:create' %}" class="btn btn-primary">
+    Create Your First Project
   </a>
 </div>
-{% endif %} 
-{% endblock %} 
-
-{% block extra_head %}
-<style>
-  .project-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    background-color: var(--surface);
-    overflow: hidden;
-    transition: all 0.2s ease-in-out;
-  }
-  .project-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  }
-  .project-card-header {
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .project-summary {
-    padding: 1.25rem;
-    flex-grow: 1;
-  }
-  .project-actions {
-    padding: 1rem 1.25rem;
-    background-color: #f8fafc;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-end;
-  }
-  .project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
-  }
-  .empty-state {
-    background: var(--surface);
-    border: 2px dashed var(--border);
-    border-radius: 0.5rem;
-  }
-</style>
-{% endblock %}
+{% endif %} {% endblock %}
