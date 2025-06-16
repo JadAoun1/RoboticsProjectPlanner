@@ -1,108 +1,11 @@
-{% extends 'base.html' %}
-
-{% block title %}Delete Part - {{ object.part_name }} - RoboPlanner{% endblock %}
-
-{% block content %}
-<div class="form-container" style="max-width: 500px; margin: 0 auto">
-  <!-- Breadcrumb Navigation -->
-  <nav aria-label="breadcrumb" class="mb-3">
-    <div class="breadcrumb text-sm text-muted">
-      <a href="{% url 'projects:dashboard' %}" class="text-primary"
-        >My Projects</a
-      >
-      <span class="mx-2">›</span>
-      <a
-        href="{% url 'projects:detail' object.project.pk %}"
-        class="text-primary"
-        >{{ object.project.project_name }}</a
-      >
-      <span class="mx-2">›</span>
-      <span>Delete Part</span>
-    </div>
-  </nav>
-
-  <div class="card">
-    <div class="card-header" style="background: #fef2f2; border-color: #fecaca">
-      <h1 class="card-title text-danger">
-        <span aria-hidden="true">⚠️</span>
-        Delete Part
-      </h1>
-      <p class="text-muted">Remove this part from your project</p>
-    </div>
-
-    <div class="card-body">
-      <div
-        class="part-info card mb-4"
-        style="background: #f8fafc; border-color: #e2e8f0"
-      >
-        <div class="card-body">
-          <h2 class="text-lg font-medium mb-2">📦 {{ object.part_name }}</h2>
-          <div class="part-details text-sm text-muted">
-            <p><strong>Quantity:</strong> {{ object.quantity }}</p>
-            <p>
-              <strong>Estimated Cost:</strong> ${{
-              object.total_estimated_cost|floatformat:2 }}
-            </p>
-            {% if object.total_actual_cost %}
-            <p>
-              <strong>Actual Cost:</strong> ${{
-              object.total_actual_cost|floatformat:2 }}
-            </p>
-            {% endif %} {% if object.notes %}
-            <p><strong>Notes:</strong> {{ object.notes|truncatewords:20 }}</p>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-
-      <div class="alert alert-warning" role="alert">
-        <strong>⚠️ Note:</strong> This part will be removed from your project.
-        The cost will be deducted from your project totals.
-      </div>
-
-      <form method="post">
-        {% csrf_token %}
-        <div class="form-actions flex gap-2">
-          <button type="submit" class="btn btn-danger">
-            <span aria-hidden="true">🗑️</span>
-            Delete Part
-          </button>
-
-          <a
-            href="{% url 'projects:detail' object.project.pk %}"
-            class="btn btn-outline"
-          >
-            <span aria-hidden="true">↩️</span>
-            Cancel
-          </a>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-{% endblock %}
-
-{% block extra_head %}
-<style>
-  .breadcrumb {
-    padding: 0.75rem 0;
-  }
-
-  .form-actions {
-    border-top: 1px solid var(--border);
-    padding-top: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  @media (max-width: 768px) {
-    .form-actions {
-      flex-direction: column;
-    }
-
-    .form-actions .btn {
-      justify-content: center;
-    }
-  }
-</style>
-{% endblock %}
-
+{% extends 'base.html' %}  
+{% block title %}Delete Part{% endblock %}  
+{% block content %}  
+<h1>Delete Part</h1>  
+<p>Are you sure you want to delete "{{ object.part_name }}"?</p>  
+<form method="post">  
+{% csrf_token %}  
+<button type="submit">Delete</button>  
+<a href="{{ object.project.get_absolute_url }}">Cancel</a>  
+</form>  
+{% endblock %} 
