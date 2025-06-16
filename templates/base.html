@@ -1,79 +1,104 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}RoboPlanner - Plan Your Robotics Projects{% endblock %}</title>
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}RoboPlanner - Plan Your Robotics Projects{% endblock %}
+    </title>
+
     <!-- Load static files -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    
+    <!-- Global CSS Variables -->
+    <link rel="stylesheet" href="{% static 'css/variables.css' %}" />
+    <!-- Global Components -->
+    <link rel="stylesheet" href="{% static 'css/components.css' %}" />
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+
     <!-- Favicon and meta tags -->
-    <meta name="description" content="Plan, organize, and manage your robotics projects with parts, tools, notes, and cost tracking.">
-    <meta name="author" content="RoboPlanner">
-    
+    <meta
+      name="description"
+      content="Plan, organize, and manage your robotics projects with parts, tools, notes, and cost tracking."
+    />
+    <meta name="author" content="RoboPlanner" />
+
     {% block extra_head %}{% endblock %}
-</head>
-<body>
+  </head>
+  <body>
     <!-- Skip to main content link for accessibility -->
     <a href="#main-content" class="sr-only">Skip to main content</a>
-    
+
     <!-- Header and Navigation -->
     <header class="header" role="banner">
-        <nav class="navbar" role="navigation" aria-label="Main navigation">
-            <a href="{% if user.is_authenticated %}{% url 'projects:dashboard' %}{% else %}{% url 'accounts:login' %}{% endif %}" class="logo">
-                RoboPlanner
-            </a>
-            
-            <ul class="nav-links">
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'projects:dashboard' %}">My Projects</a></li>
-                    <li><a href="{% url 'projects:create' %}" class="btn btn-primary btn-sm">+ New Project</a></li>
-                    <li>
-                        <form method="post" action="{% url 'accounts:logout' %}" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline btn-sm">Log Out</button>
-                        </form>
-                    </li>
-                {% else %}
-                    <li><a href="{% url 'accounts:login' %}">Log In</a></li>
-                    <li><a href="{% url 'accounts:signup' %}" class="btn btn-primary btn-sm">Sign Up</a></li>
-                {% endif %}
-            </ul>
-        </nav>
+      <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <a
+          href="{% if user.is_authenticated %}{% url 'projects:dashboard' %}{% else %}{% url 'accounts:login' %}{% endif %}"
+          class="logo"
+        >
+          RoboPlanner
+        </a>
+
+        <ul class="nav-links">
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'projects:dashboard' %}">My Projects</a></li>
+          <li>
+            <a href="{% url 'projects:create' %}" class="btn btn-primary btn-sm"
+              >+ New Project</a
+            >
+          </li>
+          <li>
+            <form
+              method="post"
+              action="{% url 'accounts:logout' %}"
+              style="display: inline"
+            >
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline btn-sm">
+                Log Out
+              </button>
+            </form>
+          </li>
+          {% else %}
+          <li><a href="{% url 'accounts:login' %}">Log In</a></li>
+          <li>
+            <a href="{% url 'accounts:signup' %}" class="btn btn-primary btn-sm"
+              >Sign Up</a
+            >
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
     </header>
 
     <!-- Main Content -->
     <main id="main-content" class="main-content" role="main">
-        <div class="container">
-            <!-- Messages -->
-            {% if messages %}
-                <div class="messages" role="alert" aria-live="polite">
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-
-            <!-- Page Content -->
-            {% block content %}{% endblock %}
+      <div class="container">
+        <!-- Messages -->
+        {% if messages %}
+        <div class="messages" role="alert" aria-live="polite">
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+          {% endfor %}
         </div>
+        {% endif %}
+
+        <!-- Page Content -->
+        {% block content %}{% endblock %}
+      </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
-        <div class="container">
-            <div class="footer-content">
-                <p class="text-muted text-center">
-                    &copy; 2024 RoboPlanner. Built for robotics enthusiasts.
-                </p>
-            </div>
+      <div class="container">
+        <div class="footer-content">
+          <p class="text-muted text-center">
+            &copy; 2024 RoboPlanner. Built for robotics enthusiasts.
+          </p>
         </div>
+      </div>
     </footer>
 
     {% block extra_js %}{% endblock %}
-</body>
-</html> 
+  </body>
+</html>
