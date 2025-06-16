@@ -1,11 +1,60 @@
-{% extends 'base.html' %}  
-{% block title %}Delete Part{% endblock %}  
-{% block content %}  
-<h1>Delete Part</h1>  
-<p>Are you sure you want to delete "{{ object.part_name }}"?</p>  
-<form method="post">  
-{% csrf_token %}  
-<button type="submit">Delete</button>  
-<a href="{{ object.project.get_absolute_url }}">Cancel</a>  
-</form>  
-{% endblock %} 
+{% extends 'base.html' %} {% block title %}Delete Part - {{ object.part_name }}
+- RoboPlanner{% endblock %} {% block content %}
+<div class="delete-form-container">
+  <!-- Breadcrumb Navigation -->
+  <nav aria-label="breadcrumb" class="mb-3">
+    <div class="delete-breadcrumb text-sm text-muted">
+      <a href="{% url 'projects:dashboard' %}" class="text-primary"
+        >My Projects</a
+      >
+      <span class="mx-2">›</span>
+      <a
+        href="{% url 'projects:detail' object.project.pk %}"
+        class="text-primary"
+        >{{ object.project.project_name }}</a
+      >
+      <span class="mx-2">›</span>
+      <span>Delete Part</span>
+    </div>
+  </nav>
+
+  <div class="card">
+    <div class="card-header delete-card-header">
+      <h1 class="card-title text-danger">Delete Part</h1>
+      <p class="text-muted">Remove this part from your project</p>
+    </div>
+
+    <div class="card-body">
+      <div class="part-info card mb-4 delete-info-card">
+        <div class="card-body">
+          <h2 class="text-lg font-medium mb-2">{{ object.part_name }}</h2>
+          <div class="part-details text-sm text-muted">
+            <p><strong>Quantity:</strong> {{ object.quantity }}</p>
+            {% if object.estimated_cost_per_unit %}
+            {% endif %} {% if object.notes %}
+            <p><strong>Notes:</strong> {{ object.notes|truncatewords:20 }}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-warning" role="alert">
+        <strong>Note:</strong> This part will be removed from your project
+        components list.
+      </div>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="delete-form-actions flex gap-2">
+          <button type="submit" class="btn btn-danger">Delete Part</button>
+          <a
+            href="{% url 'projects:detail' object.project.pk %}"
+            class="btn btn-outline"
+            >Cancel</a
+          >
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

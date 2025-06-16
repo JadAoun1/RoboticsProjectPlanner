@@ -1,37 +1,28 @@
-{% extends 'base.html' %} {% block title %}Delete Tool - {{ object.tool_name }}
-- RoboPlanner{% endblock %} {% block content %}
-<div class="form-container" style="max-width: 500px; margin: 0 auto">
+{% extends 'base.html' %} 
+
+{% block title %}Delete Tool - {{ object.tool_name }} - RoboPlanner{% endblock %} 
+
+{% block content %}
+<div class="delete-form-container">
   <!-- Breadcrumb Navigation -->
   <nav aria-label="breadcrumb" class="mb-3">
-    <div class="breadcrumb text-sm text-muted">
-      <a href="{% url 'projects:dashboard' %}" class="text-primary"
-        >My Projects</a
-      >
+    <div class="delete-breadcrumb text-sm text-muted">
+      <a href="{% url 'projects:dashboard' %}" class="text-primary">My Projects</a>
       <span class="mx-2">›</span>
-      <a
-        href="{% url 'projects:detail' object.project.pk %}"
-        class="text-primary"
-        >{{ object.project.project_name }}</a
-      >
+      <a href="{% url 'projects:detail' object.project.pk %}" class="text-primary">{{ object.project.project_name }}</a>
       <span class="mx-2">›</span>
       <span>Delete Tool</span>
     </div>
   </nav>
 
   <div class="card">
-    <div class="card-header" style="background: #fef2f2; border-color: #fecaca">
-      <h1 class="card-title text-danger">
-        <span aria-hidden="true">⚠️</span>
-        Delete Tool
-      </h1>
+    <div class="card-header delete-card-header">
+      <h1 class="card-title text-danger">Delete Tool</h1>
       <p class="text-muted">Remove this tool from your project</p>
     </div>
 
     <div class="card-body">
-      <div
-        class="tool-info card mb-4"
-        style="background: #f8fafc; border-color: #e2e8f0"
-      >
+      <div class="tool-info card mb-4 delete-info-card">
         <div class="card-body">
           <h2 class="text-lg font-medium mb-2">{{ object.tool_name }}</h2>
           {% if object.notes %}
@@ -43,50 +34,17 @@
       </div>
 
       <div class="alert alert-warning" role="alert">
-        <strong>⚠️ Note:</strong> This tool will be removed from your project
-        requirements list.
+        <strong>Note:</strong> This tool will be removed from your project requirements list.
       </div>
 
       <form method="post">
         {% csrf_token %}
-        <div class="form-actions flex gap-2">
-          <button type="submit" class="btn btn-danger">
-            <span aria-hidden="true">🗑️</span>
-            Delete Tool
-          </button>
-
-          <a
-            href="{% url 'projects:detail' object.project.pk %}"
-            class="btn btn-outline"
-          >
-            <span aria-hidden="true">↩️</span>
-            Cancel
-          </a>
+        <div class="delete-form-actions flex gap-2">
+          <button type="submit" class="btn btn-danger">Delete Tool</button>
+          <a href="{% url 'projects:detail' object.project.pk %}" class="btn btn-outline">Cancel</a>
         </div>
       </form>
     </div>
   </div>
 </div>
-{% endblock %} {% block extra_head %}
-<style>
-  .breadcrumb {
-    padding: 0.75rem 0;
-  }
-
-  .form-actions {
-    border-top: 1px solid var(--border);
-    padding-top: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  @media (max-width: 768px) {
-    .form-actions {
-      flex-direction: column;
-    }
-
-    .form-actions .btn {
-      justify-content: center;
-    }
-  }
-</style>
 {% endblock %}
