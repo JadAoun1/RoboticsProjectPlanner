@@ -1,7 +1,5 @@
-{% extends 'base.html' %}
-
-{% block title %}My Projects - RoboPlanner{% endblock %}
-
+{% extends 'base.html' %} 
+{% block title %}My Projects - RoboPlanner{% endblock %} 
 {% block content %}
 <div class="dashboard-header flex flex-between items-center mb-4">
   <div>
@@ -10,8 +8,8 @@
     </h1>
     <p class="text-muted">
       {% if projects %} You have {{ projects|length }} project{{
-      projects|length|pluralize }}. {% else %} Ready to start your first robotics
-      project? {% endif %}
+      projects|length|pluralize }}. {% else %} Ready to start your first
+      robotics project? {% endif %}
     </p>
   </div>
   <a href="{% url 'projects:create' %}" class="btn btn-primary">
@@ -98,7 +96,7 @@
 </div>
 {% else %}
 <div class="empty-state text-center" style="padding: 4rem 2rem">
-  <div class="empty-icon" style="font-size: 4rem; margin-bottom: 1rem">🤖</div>
+  <div class="empty-icon" style="font-size: 4rem; margin-bottom: 1rem"></div>
   <h2 class="text-primary mb-3">Welcome to RoboPlanner!</h2>
   <p class="text-muted mb-4" style="max-width: 500px; margin: 0 auto">
     Start by creating your first robotics project. You can organize parts,
@@ -112,8 +110,8 @@
     <span aria-hidden="true">+</span> Create Your First Project
   </a>
 </div>
-{% endif %}
-{% endblock %}
+{% endif %} 
+{% endblock %} 
 
 {% block extra_head %}
 <style>
@@ -129,7 +127,7 @@
   }
   .project-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
   .project-card-header {
     padding: 1rem 1.25rem;
@@ -158,4 +156,4 @@
     border-radius: 0.5rem;
   }
 </style>
-{% endblock %} 
+{% endblock %}

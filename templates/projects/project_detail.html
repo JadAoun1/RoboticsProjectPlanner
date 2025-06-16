@@ -1,381 +1,446 @@
-{% extends 'base.html' %}
-
-{% block title %}{{ project.project_name }} - RoboPlanner{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}{{ project.project_name }} -
+RoboPlanner{% endblock %} {% block content %}
 <!-- Project Header -->
 <div class="project-header flex flex-between items-center mb-4">
-    <div>
-        <h1 class="text-primary" style="font-size: 2rem; margin-bottom: 0.5rem;">
-            {{ project.project_name }}
-        </h1>
-        <p class="text-muted">
-            <time datetime="{{ project.updated_at|date:'Y-m-d' }}">
-                Last updated {{ project.updated_at|timesince }} ago
-            </time>
-        </p>
-    </div>
-    <div class="project-header-actions flex gap-1">
-        <a href="{% url 'projects:update' project.pk %}" class="btn btn-outline btn-sm">
-            <span aria-hidden="true">✏️</span> Edit Project
-        </a>
-        <a href="{% url 'projects:dashboard' %}" class="btn btn-secondary btn-sm">
-            <span aria-hidden="true">←</span> Back to Projects
-        </a>
-    </div>
+  <div>
+    <h1 class="text-primary" style="font-size: 2rem; margin-bottom: 0.5rem">
+      {{ project.project_name }}
+    </h1>
+    <p class="text-muted">
+      <time datetime="{{ project.updated_at|date:'Y-m-d' }}">
+        Last updated {{ project.updated_at|timesince }} ago
+      </time>
+    </p>
+  </div>
+  <div class="project-header-actions flex gap-1">
+    <a
+      href="{% url 'projects:update' project.pk %}"
+      class="btn btn-outline btn-sm"
+    >
+      <span aria-hidden="true">✏️</span> Edit Project
+    </a>
+    <a href="{% url 'projects:dashboard' %}" class="btn btn-secondary btn-sm">
+      <span aria-hidden="true">←</span> Back to Projects
+    </a>
+  </div>
 </div>
 
 <!-- Cost Overview -->
 {% if project.get_total_estimated_cost > 0 %}
 <div class="cost-display mb-4">
-    <div class="flex flex-between items-center">
-        <div>
-            <h3 class="text-secondary" style="margin-bottom: 0.25rem;">Total Estimated Cost</h3>
-            <div class="cost-amount">${{ project.get_total_estimated_cost|floatformat:2 }}</div>
-        </div>
-        <div class="cost-breakdown text-right">
-            <p class="text-muted text-sm">
-                Based on {{ project.parts.count }} part{{ project.parts.count|pluralize }}
-            </p>
-        </div>
+  <div class="flex flex-between items-center">
+    <div>
+      <h3 class="text-secondary" style="margin-bottom: 0.25rem">
+        Total Estimated Cost
+      </h3>
+      <div class="cost-amount">
+        ${{ project.get_total_estimated_cost|floatformat:2 }}
+      </div>
     </div>
+    <div class="cost-breakdown text-right">
+      <p class="text-muted text-sm">
+        Based on {{ project.parts.count }} part{{ project.parts.count|pluralize
+        }}
+      </p>
+    </div>
+  </div>
 </div>
 {% endif %}
 
 <!-- Main Content Grid -->
 <div class="project-content">
-    
-    <!-- Parts Section -->
-    <section class="project-section" aria-labelledby="parts-heading">
-        <div class="section-header flex flex-between items-center mb-3">
-            <h2 id="parts-heading" class="section-title">
-                <span aria-hidden="true">📦</span> Parts 
-                <span class="count-badge">{{ project.parts.count }}</span>
-            </h2>
-            <a href="{% url 'projects:part_create' project.pk %}" class="btn btn-primary btn-sm">
-                <span aria-hidden="true">+</span> Add Part
-            </a>
-        </div>
-        
-        {% if project.parts.exists %}
-            <div class="table-container">
-                <table class="table" role="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Part Name</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Est. Cost</th>
-                            <th scope="col">Actual Cost</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for part in project.parts.all %}
-                            <tr>
-                                <td>
-                                    <strong>{{ part.part_name }}</strong>
-                                    {% if part.notes %}
-                                        <p class="text-muted text-sm" style="margin-top: 0.25rem;">{{ part.notes|truncatewords:10 }}</p>
-                                    {% endif %}
-                                </td>
-                                <td>{{ part.quantity }}</td>
-                                <td>
-                                    {% if part.estimated_cost_per_unit %}
-                                        ${{ part.estimated_cost_per_unit|floatformat:2 }}
-                                    {% else %}
-                                        <span class="text-muted">–</span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if part.actual_cost_per_unit %}
-                                        ${{ part.actual_cost_per_unit|floatformat:2 }}
-                                    {% else %}
-                                        <span class="text-muted">–</span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if part.get_total_cost > 0 %}
-                                        <strong class="text-secondary">${{ part.get_total_cost|floatformat:2 }}</strong>
-                                    {% else %}
-                                        <span class="text-muted">–</span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <div class="action-buttons flex gap-1">
-                                        <a href="{% url 'projects:part_update' part.pk %}" 
-                                           class="btn btn-outline btn-sm"
-                                           aria-label="Edit {{ part.part_name }}">
-                                            Edit
-                                        </a>
-                                        <a href="{% url 'projects:part_delete' part.pk %}" 
-                                           class="btn btn-danger btn-sm"
-                                           aria-label="Delete {{ part.part_name }}">
-                                            Delete
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% else %}
-            <div class="empty-section">
-                <p class="text-muted text-center" style="padding: 2rem;">
-                    No parts added yet. <a href="{% url 'projects:part_create' project.pk %}" class="text-primary">Add your first part</a> to start tracking components.
-                </p>
-            </div>
-        {% endif %}
-    </section>
+  <!-- Parts Section -->
+  <section class="project-section" aria-labelledby="parts-heading">
+    <div class="section-header flex flex-between items-center mb-3">
+      <h2 id="parts-heading" class="section-title">
+        <span aria-hidden="true">📦</span> Parts
+        <span class="count-badge">{{ project.parts.count }}</span>
+      </h2>
+      <a
+        href="{% url 'projects:part_create' project.pk %}"
+        class="btn btn-primary btn-sm"
+      >
+        <span aria-hidden="true">+</span> Add Part
+      </a>
+    </div>
 
-    <!-- Tools Section -->
-    <section class="project-section" aria-labelledby="tools-heading">
-        <div class="section-header flex flex-between items-center mb-3">
-            <h2 id="tools-heading" class="section-title">
-                <span aria-hidden="true">🔧</span> Tools 
-                <span class="count-badge">{{ project.tools.count }}</span>
-            </h2>
-            <a href="{% url 'projects:tool_create' project.pk %}" class="btn btn-primary btn-sm">
-                <span aria-hidden="true">+</span> Add Tool
-            </a>
-        </div>
-        
-        {% if project.tools.exists %}
-            <div class="tools-grid grid grid-2">
-                {% for tool in project.tools.all %}
-                    <div class="tool-card card">
-                        <div class="card-body">
-                            <h3 class="text-primary mb-2">{{ tool.tool_name }}</h3>
-                            {% if tool.notes %}
-                                <p class="text-muted text-sm mb-3">{{ tool.notes }}</p>
-                            {% endif %}
-                            <div class="tool-actions flex gap-1">
-                                <a href="{% url 'projects:tool_update' tool.pk %}" 
-                                   class="btn btn-outline btn-sm"
-                                   aria-label="Edit {{ tool.tool_name }}">
-                                    Edit
-                                </a>
-                                <a href="{% url 'projects:tool_delete' tool.pk %}" 
-                                   class="btn btn-danger btn-sm"
-                                   aria-label="Delete {{ tool.tool_name }}">
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="empty-section">
-                <p class="text-muted text-center" style="padding: 2rem;">
-                    No tools listed yet. <a href="{% url 'projects:tool_create' project.pk %}" class="text-primary">Add your first tool</a> to track required equipment.
-                </p>
-            </div>
-        {% endif %}
-    </section>
+    {% if project.parts.exists %}
+    <div class="table-container">
+      <table class="table" role="table">
+        <thead>
+          <tr>
+            <th scope="col">Part Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Est. Cost</th>
+            <th scope="col">Actual Cost</th>
+            <th scope="col">Total</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for part in project.parts.all %}
+          <tr>
+            <td>
+              <strong>{{ part.part_name }}</strong>
+              {% if part.notes %}
+              <p class="text-muted text-sm" style="margin-top: 0.25rem">
+                {{ part.notes|truncatewords:10 }}
+              </p>
+              {% endif %}
+            </td>
+            <td>{{ part.quantity }}</td>
+            <td>
+              {% if part.estimated_cost_per_unit %} ${{
+              part.estimated_cost_per_unit|floatformat:2 }} {% else %}
+              <span class="text-muted">–</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if part.actual_cost_per_unit %} ${{
+              part.actual_cost_per_unit|floatformat:2 }} {% else %}
+              <span class="text-muted">–</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if part.get_total_cost > 0 %}
+              <strong class="text-secondary"
+                >${{ part.get_total_cost|floatformat:2 }}</strong
+              >
+              {% else %}
+              <span class="text-muted">–</span>
+              {% endif %}
+            </td>
+            <td>
+              <div class="action-buttons flex gap-1">
+                <a
+                  href="{% url 'projects:part_update' part.pk %}"
+                  class="btn btn-outline btn-sm"
+                  aria-label="Edit {{ part.part_name }}"
+                >
+                  Edit
+                </a>
+                <a
+                  href="{% url 'projects:part_delete' part.pk %}"
+                  class="btn btn-danger btn-sm"
+                  aria-label="Delete {{ part.part_name }}"
+                >
+                  Delete
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-section">
+      <p class="text-muted text-center" style="padding: 2rem">
+        No parts added yet.
+        <a
+          href="{% url 'projects:part_create' project.pk %}"
+          class="text-primary"
+          >Add your first part</a
+        >
+        to start tracking components.
+      </p>
+    </div>
+    {% endif %}
+  </section>
 
-    <!-- Notes Section -->
-    <section class="project-section" aria-labelledby="notes-heading">
-        <div class="section-header flex flex-between items-center mb-3">
-            <h2 id="notes-heading" class="section-title">
-                <span aria-hidden="true">📝</span> Notes 
-                <span class="count-badge">{{ project.notes.count }}</span>
-            </h2>
-            <a href="{% url 'projects:note_create' project.pk %}" class="btn btn-primary btn-sm">
-                <span aria-hidden="true">+</span> Add Note
-            </a>
-        </div>
-        
-        {% if project.notes.exists %}
-            <div class="notes-list">
-                {% for note in project.notes.all %}
-                    <article class="note-card card mb-3">
-                        <div class="card-body">
-                            <header class="note-header flex flex-between items-start mb-2">
-                                <h3 class="text-primary">{{ note.title }}</h3>
-                                <time class="text-muted text-sm" datetime="{{ note.created_at|date:'Y-m-d' }}">
-                                    {{ note.created_at|date:"M d, Y" }}
-                                </time>
-                            </header>
-                            <div class="note-content mb-3">
-                                {{ note.content|linebreaks }}
-                            </div>
-                            <footer class="note-actions flex gap-1">
-                                <a href="{% url 'projects:note_update' note.pk %}" 
-                                   class="btn btn-outline btn-sm"
-                                   aria-label="Edit note: {{ note.title }}">
-                                    Edit
-                                </a>
-                                <a href="{% url 'projects:note_delete' note.pk %}" 
-                                   class="btn btn-danger btn-sm"
-                                   aria-label="Delete note: {{ note.title }}">
-                                    Delete
-                                </a>
-                            </footer>
-                        </div>
-                    </article>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="empty-section">
-                <p class="text-muted text-center" style="padding: 2rem;">
-                    No notes yet. <a href="{% url 'projects:note_create' project.pk %}" class="text-primary">Add your first note</a> to document ideas and progress.
-                </p>
-            </div>
-        {% endif %}
-    </section>
+  <!-- Tools Section -->
+  <section class="project-section" aria-labelledby="tools-heading">
+    <div class="section-header flex flex-between items-center mb-3">
+      <h2 id="tools-heading" class="section-title">
+        Tools
+        <span class="count-badge">{{ project.tools.count }}</span>
+      </h2>
+      <a
+        href="{% url 'projects:tool_create' project.pk %}"
+        class="btn btn-primary btn-sm"
+      >
+        <span aria-hidden="true">+</span> Add Tool
+      </a>
+    </div>
 
-    <!-- Moodboard Section -->
-    <section class="project-section" aria-labelledby="moodboard-heading">
-        <div class="section-header flex flex-between items-center mb-3">
-            <h2 id="moodboard-heading" class="section-title">
-                <span aria-hidden="true">🖼️</span> Moodboard 
-                <span class="count-badge">{{ project.moodboard_images.count }}</span>
-            </h2>
-            <a href="{% url 'projects:moodboard_create' project.pk %}" class="btn btn-primary btn-sm">
-                <span aria-hidden="true">+</span> Add Image
+    {% if project.tools.exists %}
+    <div class="tools-grid grid grid-2">
+      {% for tool in project.tools.all %}
+      <div class="tool-card card">
+        <div class="card-body">
+          <h3 class="text-primary mb-2">{{ tool.tool_name }}</h3>
+          {% if tool.notes %}
+          <p class="text-muted text-sm mb-3">{{ tool.notes }}</p>
+          {% endif %}
+          <div class="tool-actions flex gap-1">
+            <a
+              href="{% url 'projects:tool_update' tool.pk %}"
+              class="btn btn-outline btn-sm"
+              aria-label="Edit {{ tool.tool_name }}"
+            >
+              Edit
             </a>
+            <a
+              href="{% url 'projects:tool_delete' tool.pk %}"
+              class="btn btn-danger btn-sm"
+              aria-label="Delete {{ tool.tool_name }}"
+            >
+              Delete
+            </a>
+          </div>
         </div>
-        
-        {% if project.moodboard_images.exists %}
-            <div class="moodboard-grid grid grid-3">
-                {% for image in project.moodboard_images.all %}
-                    <div class="moodboard-card card">
-                        <div class="image-container" style="aspect-ratio: 16/9; overflow: hidden; border-radius: 0.375rem 0.375rem 0 0;">
-                            <img src="{{ image.image_url }}" 
-                                 alt="{% if image.caption %}{{ image.caption }}{% else %}Moodboard image for {{ project.project_name }}{% endif %}"
-                                 style="width: 100%; height: 100%; object-fit: cover;"
-                                 loading="lazy">
-                        </div>
-                        <div class="card-body">
-                            {% if image.caption %}
-                                <p class="text-sm mb-2">{{ image.caption }}</p>
-                            {% endif %}
-                            <div class="image-actions flex gap-1">
-                                <a href="{% url 'projects:moodboard_update' image.pk %}" 
-                                   class="btn btn-outline btn-sm"
-                                   aria-label="Edit moodboard image">
-                                    Edit
-                                </a>
-                                <a href="{% url 'projects:moodboard_delete' image.pk %}" 
-                                   class="btn btn-danger btn-sm"
-                                   aria-label="Delete moodboard image">
-                                    Delete
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="empty-section">
-                <p class="text-muted text-center" style="padding: 2rem;">
-                    No inspiration images yet. <a href="{% url 'projects:moodboard_create' project.pk %}" class="text-primary">Add your first image</a> to create a visual reference.
-                </p>
-            </div>
-        {% endif %}
-    </section>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-section">
+      <p class="text-muted text-center" style="padding: 2rem">
+        No tools listed yet.
+        <a
+          href="{% url 'projects:tool_create' project.pk %}"
+          class="text-primary"
+          >Add your first tool</a
+        >
+        to track required equipment.
+      </p>
+    </div>
+    {% endif %}
+  </section>
 
+  <!-- Notes Section -->
+  <section class="project-section" aria-labelledby="notes-heading">
+    <div class="section-header flex flex-between items-center mb-3">
+      <h2 id="notes-heading" class="section-title">
+        Notes
+        <span class="count-badge">{{ project.notes.count }}</span>
+      </h2>
+      <a
+        href="{% url 'projects:note_create' project.pk %}"
+        class="btn btn-primary btn-sm"
+      >
+        <span aria-hidden="true">+</span> Add Note
+      </a>
+    </div>
+
+    {% if project.notes.exists %}
+    <div class="notes-list">
+      {% for note in project.notes.all %}
+      <article class="note-card card mb-3">
+        <div class="card-body">
+          <header class="note-header flex flex-between items-start mb-2">
+            <h3 class="text-primary">{{ note.title }}</h3>
+            <time
+              class="text-muted text-sm"
+              datetime="{{ note.created_at|date:'Y-m-d' }}"
+            >
+              {{ note.created_at|date:"M d, Y" }}
+            </time>
+          </header>
+          <div class="note-content mb-3">{{ note.content|linebreaks }}</div>
+          <footer class="note-actions flex gap-1">
+            <a
+              href="{% url 'projects:note_update' note.pk %}"
+              class="btn btn-outline btn-sm"
+              aria-label="Edit note: {{ note.title }}"
+            >
+              Edit
+            </a>
+            <a
+              href="{% url 'projects:note_delete' note.pk %}"
+              class="btn btn-danger btn-sm"
+              aria-label="Delete note: {{ note.title }}"
+            >
+              Delete
+            </a>
+          </footer>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-section">
+      <p class="text-muted text-center" style="padding: 2rem">
+        No notes yet.
+        <a
+          href="{% url 'projects:note_create' project.pk %}"
+          class="text-primary"
+          >Add your first note</a
+        >
+        to document ideas and progress.
+      </p>
+    </div>
+    {% endif %}
+  </section>
+
+  <!-- Moodboard Section -->
+  <section class="project-section" aria-labelledby="moodboard-heading">
+    <div class="section-header flex flex-between items-center mb-3">
+      <h2 id="moodboard-heading" class="section-title">
+        Moodboard
+        <span class="count-badge">{{ project.moodboard_images.count }}</span>
+      </h2>
+      <a
+        href="{% url 'projects:moodboard_create' project.pk %}"
+        class="btn btn-primary btn-sm"
+      >
+        <span aria-hidden="true">+</span> Add Image
+      </a>
+    </div>
+
+    {% if project.moodboard_images.exists %}
+    <div class="moodboard-grid grid grid-3">
+      {% for image in project.moodboard_images.all %}
+      <div class="moodboard-card card">
+        <div
+          class="image-container"
+          style="
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 0.375rem 0.375rem 0 0;
+          "
+        >
+          <img
+            src="{{ image.image_url }}"
+            alt="{% if image.caption %}{{ image.caption }}{% else %}Moodboard image for {{ project.project_name }}{% endif %}"
+            style="width: 100%; height: 100%; object-fit: cover"
+            loading="lazy"
+          />
+        </div>
+        <div class="card-body">
+          {% if image.caption %}
+          <p class="text-sm mb-2">{{ image.caption }}</p>
+          {% endif %}
+          <div class="image-actions flex gap-1">
+            <a
+              href="{% url 'projects:moodboard_update' image.pk %}"
+              class="btn btn-outline btn-sm"
+              aria-label="Edit moodboard image"
+            >
+              Edit
+            </a>
+            <a
+              href="{% url 'projects:moodboard_delete' image.pk %}"
+              class="btn btn-danger btn-sm"
+              aria-label="Delete moodboard image"
+            >
+              Delete
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-section">
+      <p class="text-muted text-center" style="padding: 2rem">
+        No inspiration images yet.
+        <a
+          href="{% url 'projects:moodboard_create' project.pk %}"
+          class="text-primary"
+          >Add your first image</a
+        >
+        to create a visual reference.
+      </p>
+    </div>
+    {% endif %}
+  </section>
 </div>
-{% endblock %}
-
-{% block extra_head %}
+{% endblock %} {% block extra_head %}
 <style>
-/* Project Detail Specific Styles */
-.project-header-actions {
+  /* Project Detail Specific Styles */
+  .project-header-actions {
     flex-wrap: wrap;
-}
+  }
 
-.project-section {
+  .project-section {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 0.5rem;
     padding: 1.5rem;
     margin-bottom: 2rem;
-}
+  }
 
-.section-title {
+  .section-title {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-primary);
     display: flex;
     align-items: center;
     gap: 0.5rem;
-}
+  }
 
-.count-badge {
+  .count-badge {
     background: var(--primary-color);
     color: white;
     font-size: 0.75rem;
     padding: 0.25rem 0.5rem;
     border-radius: 9999px;
     font-weight: 600;
-}
+  }
 
-.empty-section {
+  .empty-section {
     background: #f8fafc;
     border: 2px dashed var(--border);
     border-radius: 0.375rem;
-}
+  }
 
-.action-buttons {
+  .action-buttons {
     flex-wrap: wrap;
-}
+  }
 
-.tools-grid .card {
+  .tools-grid .card {
     height: fit-content;
-}
+  }
 
-.note-card {
+  .note-card {
     border-left: 4px solid var(--primary-color);
-}
+  }
 
-.note-header h3 {
+  .note-header h3 {
     font-size: 1.125rem;
     margin: 0;
-}
+  }
 
-.moodboard-grid .card {
+  .moodboard-grid .card {
     height: fit-content;
-}
+  }
 
-.image-container img {
+  .image-container img {
     transition: transform 0.2s ease;
-}
+  }
 
-.image-container:hover img {
+  .image-container:hover img {
     transform: scale(1.05);
-}
+  }
 
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
     .project-header {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
     }
-    
+
     .project-header-actions {
-        justify-content: center;
+      justify-content: center;
     }
-    
+
     .section-header {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
     }
-    
+
     .tools-grid {
-        grid-template-columns: 1fr;
+      grid-template-columns: 1fr;
     }
-    
+
     .moodboard-grid {
-        grid-template-columns: 1fr;
+      grid-template-columns: 1fr;
     }
-    
+
     .action-buttons {
-        flex-direction: column;
+      flex-direction: column;
     }
-}
+  }
 </style>
-{% endblock %} 
+{% endblock %}

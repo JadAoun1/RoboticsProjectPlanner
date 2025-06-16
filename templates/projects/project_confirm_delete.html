@@ -1,8 +1,5 @@
-{% extends 'base.html' %}
-
-{% block title %}Delete Project - {{ project.project_name }} - RoboPlanner{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}Delete Project - {{
+project.project_name }} - RoboPlanner{% endblock %} {% block content %}
 <div class="form-container" style="max-width: 500px; margin: 0 auto">
   <!-- Breadcrumb Navigation -->
   <nav aria-label="breadcrumb" class="mb-3">
@@ -51,15 +48,12 @@
                 <span>{{ project.parts.count }} parts</span>
               </li>
               <li class="flex items-center gap-2 mb-1">
-                <span aria-hidden="true">🔧</span>
                 <span>{{ project.tools.count }} tools</span>
               </li>
               <li class="flex items-center gap-2 mb-1">
-                <span aria-hidden="true">📝</span>
                 <span>{{ project.notes.count }} notes</span>
               </li>
               <li class="flex items-center gap-2 mb-1">
-                <span aria-hidden="true">🎨</span>
                 <span
                   >{{ project.moodboard_images.count }} inspiration images</span
                 >
@@ -98,7 +92,7 @@
   <div class="alternative-actions mt-4">
     <div class="card" style="background: #f0f9ff; border-color: #bfdbfe">
       <div class="card-body text-center">
-        <h3 class="text-primary mb-2">💡 Consider These Alternatives</h3>
+        <h3 class="text-primary mb-2">Consider These Alternatives</h3>
         <div
           class="alternatives grid grid-1"
           style="gap: 0.75rem; text-align: left"
@@ -120,9 +114,7 @@
     </div>
   </div>
 </div>
-{% endblock %}
-
-{% block extra_head %}
+{% endblock %} {% block extra_head %}
 <style>
   .breadcrumb {
     padding: 0.75rem 0;
@@ -161,4 +153,3 @@
   }
 </style>
 {% endblock %}
-

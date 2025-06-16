@@ -1,8 +1,5 @@
-{% extends 'base.html' %}
-
-{% block title %}Delete Tool - {{ object.tool_name }} - RoboPlanner{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}Delete Tool - {{ object.tool_name }}
+- RoboPlanner{% endblock %} {% block content %}
 <div class="form-container" style="max-width: 500px; margin: 0 auto">
   <!-- Breadcrumb Navigation -->
   <nav aria-label="breadcrumb" class="mb-3">
@@ -36,7 +33,7 @@
         style="background: #f8fafc; border-color: #e2e8f0"
       >
         <div class="card-body">
-          <h2 class="text-lg font-medium mb-2">🔧 {{ object.tool_name }}</h2>
+          <h2 class="text-lg font-medium mb-2">{{ object.tool_name }}</h2>
           {% if object.notes %}
           <div class="tool-details text-sm text-muted">
             <p><strong>Notes:</strong> {{ object.notes|truncatewords:20 }}</p>
@@ -70,9 +67,7 @@
     </div>
   </div>
 </div>
-{% endblock %}
-
-{% block extra_head %}
+{% endblock %} {% block extra_head %}
 <style>
   .breadcrumb {
     padding: 0.75rem 0;
@@ -95,4 +90,3 @@
   }
 </style>
 {% endblock %}
-

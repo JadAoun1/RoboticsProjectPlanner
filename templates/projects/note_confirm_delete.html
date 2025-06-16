@@ -1,8 +1,5 @@
-{% extends 'base.html' %}
-
-{% block title %}Delete Note - {{ object.title|default:"Untitled Note" }} - RoboPlanner{% endblock %}
-
-{% block
+{% extends 'base.html' %} {% block title %}Delete Note - {{
+object.title|default:"Untitled Note" }} - RoboPlanner{% endblock %} {% block
 content %}
 <div class="form-container" style="max-width: 500px; margin: 0 auto">
   <!-- Breadcrumb Navigation -->
@@ -38,7 +35,7 @@ content %}
       >
         <div class="card-body">
           <h2 class="text-lg font-medium mb-2">
-            📝 {{ object.title|default:"Untitled Note" }}
+            {{ object.title|default:"Untitled Note" }}
           </h2>
           <div class="note-preview text-sm text-muted">
             <p>
@@ -77,9 +74,7 @@ content %}
     </div>
   </div>
 </div>
-{% endblock %}
-
-{% block extra_head %}
+{% endblock %} {% block extra_head %}
 <style>
   .breadcrumb {
     padding: 0.75rem 0;
@@ -107,4 +102,3 @@ content %}
   }
 </style>
 {% endblock %}
-
