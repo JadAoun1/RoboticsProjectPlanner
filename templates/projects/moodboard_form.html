@@ -13,18 +13,17 @@
   <!-- Breadcrumb Navigation -->
   <nav aria-label="breadcrumb" class="mb-3">
     <div class="breadcrumb text-sm text-muted">
-      <a href="{% url 'projects:dashboard' %}" class="text-primary"
-        >My Projects</a
-      >
+      <a href="{% url 'projects:dashboard' %}" class="text-primary">My Projects</a>
       <span class="mx-2">›</span>
-      <a href="{% url 'projects:detail' project.pk %}" class="text-primary"
-        >{{ project.project_name }}</a
-      >
+      <a href="{% url 'projects:detail' project.pk %}" class="text-primary">{{ project.project_name }}</a>
       <span class="mx-2">›</span>
-      <span
-        >{% if form.instance.pk %}Edit Inspiration{% else %}Add Inspiration{%
-        endif %}</span
-      >
+      <span>
+        {% if form.instance.pk %}
+          Edit Inspiration
+        {% else %}
+          Add Inspiration
+        {% endif %}
+      </span>
     </div>
   </nav>
 
@@ -39,14 +38,19 @@
         {% endif %}
       </h1>
       <p class="text-muted">
-        {% if form.instance.pk %} Update your inspiration image details {% else
-        %} Add an image to inspire your project design {% endif %}
+        {% if form.instance.pk %}
+          Update your inspiration image details
+        {% else %}
+          Add an image to inspire your project design
+        {% endif %}
       </p>
     </div>
 
     <div class="card-body">
       <form method="post" novalidate>
-        {% csrf_token %} {% if form.non_field_errors %}
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
         <div class="alert alert-danger" role="alert">
           {% for error in form.non_field_errors %}
           <p>{{ error }}</p>
@@ -58,7 +62,8 @@
           <label for="{{ form.image_url.id_for_label }}" class="form-label">
             Image URL <span class="text-danger" aria-label="required">*</span>
           </label>
-          {{ form.image_url }} {% if form.image_url.errors %}
+          {{ form.image_url }}
+          {% if form.image_url.errors %}
           <div class="text-danger mt-1" role="alert">
             {% for error in form.image_url.errors %}
             <small>{{ error }}</small>
@@ -66,8 +71,7 @@
           </div>
           {% endif %}
           <small class="text-muted">
-            Paste a link to an image from the web (right-click → Copy image
-            address)
+            Paste a link to an image from the web (right-click → Copy image address)
           </small>
         </div>
 
@@ -75,7 +79,8 @@
           <label for="{{ form.caption.id_for_label }}" class="form-label">
             Caption
           </label>
-          {{ form.caption }} {% if form.caption.errors %}
+          {{ form.caption }}
+          {% if form.caption.errors %}
           <div class="text-danger mt-1" role="alert">
             {% for error in form.caption.errors %}
             <small>{{ error }}</small>
@@ -307,4 +312,3 @@
   });
 </script>
 {% endblock %}
-
