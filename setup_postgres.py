@@ -40,10 +40,10 @@ def check_database_connection():
         from django.db import connection
         cursor = connection.cursor()
         cursor.execute("SELECT 1")
-        print("✅ Database connection successful!")
+        print("Database connection successful!")
         return True
     except Exception as e:
-        print(f"❌ Database connection failed: {e}")
+        print(f"Database connection failed: {e}")
         print("\nPlease ensure:")
         print("1. PostgreSQL is installed and running")
         print("2. Database 'robotics_planner' exists")
@@ -73,36 +73,36 @@ def create_database_instructions():
 def run_migrations():
     """Run Django migrations"""
     try:
-        print("\n🔄 Creating migrations...")
+        print("\nCreating migrations...")
         execute_from_command_line(['manage.py', 'makemigrations'])
         
-        print("\n🔄 Running migrations...")
+        print("\nRunning migrations...")
         execute_from_command_line(['manage.py', 'migrate'])
         
-        print("✅ Migrations completed successfully!")
+        print("Migrations completed successfully!")
         return True
     except Exception as e:
-        print(f"❌ Migration failed: {e}")
+        print(f"Migration failed: {e}")
         return False
 
 def create_superuser_prompt():
     """Prompt to create superuser"""
-    create_user = input("\n📝 Would you like to create a superuser account? (y/N): ").lower().strip()
+    create_user = input("\nWould you like to create a superuser account? (y/N): ").lower().strip()
     if create_user in ['y', 'yes']:
         try:
             execute_from_command_line(['manage.py', 'createsuperuser'])
-            print("✅ Superuser created successfully!")
+            print("Superuser created successfully!")
         except Exception as e:
-            print(f"❌ Superuser creation failed: {e}")
+            print(f"Superuser creation failed: {e}")
 
 def main():
     """Main setup function"""
-    print("🤖 RoboPlanner PostgreSQL Setup Script")
+    print("RoboPlanner PostgreSQL Setup Script")
     print("=====================================\n")
     
     # Check if .env file exists
     if not Path('.env').exists():
-        print("❌ .env file not found!")
+        print(".env file not found!")
         print("Please copy .env.example to .env and configure your database settings.")
         return
     
@@ -121,7 +121,7 @@ def main():
     # Offer to create superuser
     create_superuser_prompt()
     
-    print("\n🎉 Setup completed successfully!")
+    print("\nSetup completed successfully!")
     print("You can now run: python manage.py runserver")
 
 if __name__ == "__main__":
