@@ -101,6 +101,16 @@ body {
     outline: 2px solid transparent;
 }
 
+/* Ensure New Project button text stays white */
+.nav-links .btn-primary {
+    color: white;
+}
+
+.nav-links .btn-primary:hover,
+.nav-links .btn-primary:focus {
+    color: white;
+}
+
 /* ==========================================================================
    Alerts & Messages
    ========================================================================== */

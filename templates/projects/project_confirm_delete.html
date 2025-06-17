@@ -19,7 +19,7 @@ project.project_name }} - RoboPlanner{% endblock %} {% block content %}
   <div class="card">
     <div class="card-header" style="background: #fef2f2; border-color: #fecaca">
       <h1 class="card-title text-danger">
-        <span aria-hidden="true">⚠️</span>
+        <span aria-hidden="true"></span>
         Delete Project
       </h1>
       <p class="text-muted">This action cannot be undone</p>
@@ -62,7 +62,7 @@ project.project_name }} - RoboPlanner{% endblock %} {% block content %}
         </div>
 
         <div class="alert alert-danger" role="alert">
-          <strong>⚠️ Warning:</strong> All project data will be permanently
+          <strong>Warning:</strong> All project data will be permanently
           lost. This action cannot be undone.
         </div>
       </div>
@@ -71,7 +71,7 @@ project.project_name }} - RoboPlanner{% endblock %} {% block content %}
         {% csrf_token %}
         <div class="form-actions flex gap-2">
           <button type="submit" class="btn btn-danger">
-            <span aria-hidden="true">🗑️</span>
+            <span aria-hidden="true"</span>
             Yes, Delete Project
           </button>
 
@@ -79,7 +79,7 @@ project.project_name }} - RoboPlanner{% endblock %} {% block content %}
             href="{% url 'projects:detail' project.pk %}"
             class="btn btn-outline"
           >
-            <span aria-hidden="true">↩️</span>
+            <span aria-hidden="true"></span>
             Cancel
           </a>
         </div>
