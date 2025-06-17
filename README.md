@@ -25,9 +25,7 @@ As a newbie in robotics, I found it challenging to keep track of all the differe
 - **Cost Tracking**: Automatic calculation of total project costs
 - **User Authentication**: Secure login and user-specific data
 - **Responsive Design**: Works perfectly on desktop, tablet, and mobile
-- **Accessibility**: WCAG 2.0 Level AA compliant design
 
-## Getting Started
 
 ### Live Application (Deployment coming soon)
 
@@ -71,14 +69,6 @@ As a newbie in robotics, I found it challenging to keep track of all the differe
 - **python-dotenv**: Environment variable management
 - **psycopg2**: PostgreSQL adapter
 
-### Design System
-
-- **CSS Variables**: Consistent theming
-- **Component Architecture**: Reusable UI components
-- **Typography**: Readable font hierarchy
-- **Color Palette**: High contrast, accessible colors
-  `
-
 ## Attributions
 
 This project was built using the following open-source technologies and resources:
@@ -106,8 +96,6 @@ This project was built using the following open-source technologies and resource
 
 ### Phase 3: Advanced Features
 
-- [ ] **API Development**: RESTful API for mobile apps
-- [ ] **Mobile App**: React Native companion app
 - [ ] **Integration**: Parts suppliers API integration
 - [ ] **AI Features**: Smart parts recommendations
 - [ ] **Progress Tracking**: Build phases and milestone tracking
