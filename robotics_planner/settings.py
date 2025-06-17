@@ -83,6 +83,7 @@ WSGI_APPLICATION = "robotics_planner.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Database Configuration - PostgreSQL only
 # Use DATABASE_URL for production (Heroku, etc.) or fall back to individual environment variables
 DATABASE_URL = os.getenv('DATABASE_URL')
 
@@ -91,28 +92,17 @@ if DATABASE_URL:
         'default': dj_database_url.parse(DATABASE_URL)
     }
 else:
-    # Use environment variables for database configuration
-    DATABASE_ENGINE = os.getenv('DATABASE_ENGINE', 'django.db.backends.postgresql')
-
-    if DATABASE_ENGINE == 'django.db.backends.sqlite3':
-        DATABASES = {
-            "default": {
-                "ENGINE": DATABASE_ENGINE,
-                "NAME": BASE_DIR / os.getenv('DATABASE_NAME', 'db.sqlite3'),
-            }
+    # PostgreSQL configuration using environment variables
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv('DATABASE_NAME', 'robotics_planner'),
+            "USER": os.getenv('DATABASE_USER', 'postgres'),
+            "PASSWORD": os.getenv('DATABASE_PASSWORD', ''),
+            "HOST": os.getenv('DATABASE_HOST', 'localhost'),
+            "PORT": os.getenv('DATABASE_PORT', '5432'),
         }
-    else:
-        # PostgreSQL or other database
-        DATABASES = {
-            "default": {
-                "ENGINE": DATABASE_ENGINE,
-                "NAME": os.getenv('DATABASE_NAME', 'robotics_planner'),
-                "USER": os.getenv('DATABASE_USER', 'robotics_user'),
-                "PASSWORD": os.getenv('DATABASE_PASSWORD', 'robotics_password'),
-                "HOST": os.getenv('DATABASE_HOST', 'localhost'),
-                "PORT": os.getenv('DATABASE_PORT', '5432'),
-            }
-        }
+    }
 
 
 # Password validation
