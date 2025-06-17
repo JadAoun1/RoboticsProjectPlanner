@@ -1,13 +1,19 @@
-{% extends 'base.html' %} 
-{% block title %}Delete Inspiration - {{ object.caption|default:"Image" }} - RoboPlanner{% endblock %} 
-{% block content %}
+{% extends 'base.html' %} {% block title %}Delete Inspiration - {{
+object.caption|default:"Image" }} - RoboPlanner{% endblock %} {% block content
+%}
 <div class="delete-form-container">
   <nav aria-label="breadcrumb" class="mb-3">
     <div class="delete-breadcrumb text-sm text-muted">
-      <a href="{% url 'projects:dashboard' %}" class="text-primary">My Projects</a>
-      <span class="mx-2">›</span>
-      <a href="{% url 'projects:detail' object.project.pk %}" class="text-primary">{{ object.project.project_name }}</a>
-      <span class="mx-2">›</span>
+      <a href="{% url 'projects:dashboard' %}" class="text-primary"
+        >My Projects</a
+      >
+      <span class="mx-2">&gt;</span>
+      <a
+        href="{% url 'projects:detail' object.project.pk %}"
+        class="text-primary"
+        >{{ object.project.project_name }}</a
+      >
+      <span class="mx-2">&gt;</span>
       <span>Delete Inspiration</span>
     </div>
   </nav>

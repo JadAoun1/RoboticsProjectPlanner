@@ -7,11 +7,11 @@ project.project_name }} - RoboPlanner{% endblock %} {% block content %}
       <a href="{% url 'projects:dashboard' %}" class="text-primary"
         >My Projects</a
       >
-      <span class="mx-2">›</span>
+      <span class="mx-2">&gt;</span>
       <a href="{% url 'projects:detail' project.pk %}" class="text-primary"
         >{{ project.project_name }}</a
       >
-      <span class="mx-2">›</span>
+      <span class="mx-2">&gt;</span>
       <span>Delete Project</span>
     </div>
   </nav>

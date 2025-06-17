@@ -20,7 +20,7 @@ RoboPlanner{% endblock %} {% block content %}
       <span aria-hidden="true"</span> Edit Project
     </a>
     <a href="{% url 'projects:dashboard' %}" class="btn btn-secondary btn-sm">
-      <span aria-hidden="true">←</span> Back to Projects
+      <span aria-hidden="true">&lt;</span> Back to Projects
     </a>
   </div>
 </div>
@@ -89,7 +89,7 @@ RoboPlanner{% endblock %} {% block content %}
                 >${{ part.get_total_cost|floatformat:2 }}</strong
               >
               {% else %}
-              <span class="text-muted">–</span>
+              <span class="text-muted">-</span>
               {% endif %}
             </td>
             <td>

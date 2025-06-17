@@ -1,13 +1,19 @@
-{% extends 'base.html' %} 
-{% block title %}Delete Note - {{ object.title|default:"Untitled Note" }} - RoboPlanner{% endblock %} 
-{% block content %}
+{% extends 'base.html' %} {% block title %}Delete Note - {{
+object.title|default:"Untitled Note" }} - RoboPlanner{% endblock %} {% block
+content %}
 <div class="delete-form-container">
   <nav aria-label="breadcrumb" class="mb-3">
     <div class="delete-breadcrumb text-sm text-muted">
-      <a href="{% url 'projects:dashboard' %}" class="text-primary">My Projects</a>
-      <span class="mx-2">›</span>
-      <a href="{% url 'projects:detail' object.project.pk %}" class="text-primary">{{ object.project.project_name }}</a>
-      <span class="mx-2">›</span>
+      <a href="{% url 'projects:dashboard' %}" class="text-primary"
+        >My Projects</a
+      >
+      <span class="mx-2">&gt;</span>
+      <a
+        href="{% url 'projects:detail' object.project.pk %}"
+        class="text-primary"
+        >{{ object.project.project_name }}</a
+      >
+      <span class="mx-2">&gt;</span>
       <span>Delete Note</span>
     </div>
   </nav>
@@ -29,21 +35,27 @@
               <strong>Created:</strong> {{ object.created_at|date:"M j, Y" }}
             </p>
             <p>
-              <strong>Preview:</strong> {{ object.content|truncatewords:30|linebreaksbr }}
+              <strong>Preview:</strong> {{
+              object.content|truncatewords:30|linebreaksbr }}
             </p>
           </div>
         </div>
       </div>
 
       <div class="alert alert-warning" role="alert">
-        <strong>Note:</strong> This note and all its content will be permanently deleted.
+        <strong>Note:</strong> This note and all its content will be permanently
+        deleted.
       </div>
 
       <form method="post">
         {% csrf_token %}
         <div class="delete-form-actions flex gap-2">
           <button type="submit" class="btn btn-danger">Delete Note</button>
-          <a href="{% url 'projects:detail' object.project.pk %}" class="btn btn-outline">Cancel</a>
+          <a
+            href="{% url 'projects:detail' object.project.pk %}"
+            class="btn btn-outline"
+            >Cancel</a
+          >
         </div>
       </form>
     </div>
