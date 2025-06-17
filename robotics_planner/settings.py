@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
 # Load environment variables from .env file
 load_dotenv()
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     # Local apps
     "accounts",
@@ -49,6 +51,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -80,28 +83,36 @@ WSGI_APPLICATION = "robotics_planner.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Use environment variables for database configuration
-DATABASE_ENGINE = os.getenv('DATABASE_ENGINE', 'django.db.backends.postgresql')
+# Use DATABASE_URL for production (Heroku, etc.) or fall back to individual environment variables
+DATABASE_URL = os.getenv('DATABASE_URL')
 
-if DATABASE_ENGINE == 'django.db.backends.sqlite3':
+if DATABASE_URL:
     DATABASES = {
-        "default": {
-            "ENGINE": DATABASE_ENGINE,
-            "NAME": BASE_DIR / os.getenv('DATABASE_NAME', 'db.sqlite3'),
-        }
+        'default': dj_database_url.parse(DATABASE_URL)
     }
 else:
-    # PostgreSQL or other database
-    DATABASES = {
-        "default": {
-            "ENGINE": DATABASE_ENGINE,
-            "NAME": os.getenv('DATABASE_NAME', 'robotics_planner'),
-            "USER": os.getenv('DATABASE_USER', 'robotics_user'),
-            "PASSWORD": os.getenv('DATABASE_PASSWORD', 'robotics_password'),
-            "HOST": os.getenv('DATABASE_HOST', 'localhost'),
-            "PORT": os.getenv('DATABASE_PORT', '5432'),
+    # Use environment variables for database configuration
+    DATABASE_ENGINE = os.getenv('DATABASE_ENGINE', 'django.db.backends.postgresql')
+
+    if DATABASE_ENGINE == 'django.db.backends.sqlite3':
+        DATABASES = {
+            "default": {
+                "ENGINE": DATABASE_ENGINE,
+                "NAME": BASE_DIR / os.getenv('DATABASE_NAME', 'db.sqlite3'),
+            }
         }
-    }
+    else:
+        # PostgreSQL or other database
+        DATABASES = {
+            "default": {
+                "ENGINE": DATABASE_ENGINE,
+                "NAME": os.getenv('DATABASE_NAME', 'robotics_planner'),
+                "USER": os.getenv('DATABASE_USER', 'robotics_user'),
+                "PASSWORD": os.getenv('DATABASE_PASSWORD', 'robotics_password'),
+                "HOST": os.getenv('DATABASE_HOST', 'localhost'),
+                "PORT": os.getenv('DATABASE_PORT', '5432'),
+            }
+        }
 
 
 # Password validation
@@ -142,6 +153,10 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# WhiteNoise configuration for serving static files in production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Login/Logout URLs
 LOGIN_URL = 'accounts:login'
