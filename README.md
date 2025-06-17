@@ -11,21 +11,9 @@ As a newbie in robotics, I found it challenging to keep track of all the differe
 - **Component Management**: Track all parts with quantities, estimated vs. actual costs
 - **Tool Tracking**: Maintain a list of required tools for each project
 - **Cost Analysis**: Automatic calculation of total project costs
-- **Documentation**: Rich note-taking system for project documentation
+- **Documentation**: Note-taking system for project documentation
 - **Visual Inspiration**: Moodboard functionality to collect inspiring images and designs
 - **User Authentication**: Secure, personal project management
-
-## Features
-
-- **Project Management**: Create and organize multiple robotics projects
-- **Parts Inventory**: Track components with quantities and cost analysis
-- **Tool Management**: Maintain lists of required tools and equipment
-- **Note System**: Rich documentation with timestamps
-- **Moodboard**: Visual inspiration collection with image URLs and captions
-- **Cost Tracking**: Automatic calculation of total project costs
-- **User Authentication**: Secure login and user-specific data
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile
-
 
 ### Live Application (Deployment coming soon)
 
@@ -45,36 +33,12 @@ As a newbie in robotics, I found it challenging to keep track of all the differe
 
 - **Dashboard**: Overview of all your projects with quick stats
 - **Project Detail**: Comprehensive view of parts, tools, notes, and moodboard
-- **Forms**: Intuitive forms for adding and editing all project data
-- **Navigation**: Breadcrumb navigation and clear menu structure
-
-## Technologies Used
-
-### Backend
-
-- **Django 4.2+**: Web framework
-- **PostgreSQL**: Primary database
-- **Python 3.8+**: Programming language
-
-### Frontend
-
-- **HTML5**: Semantic markup
-- **CSS3**: Custom design system with Flexbox and Grid
-- **Vanilla JavaScript**: Progressive enhancement
-- **Responsive Design**: Mobile-first approach
-
-### Development Tools
-
-- **Git**: Version control
-- **python-dotenv**: Environment variable management
-- **psycopg2**: PostgreSQL adapter
+- **Forms**: Intuitive forms for adding and editing all project dat
 
 ## Attributions
 
-This project was built using the following open-source technologies and resources:
-
 - **Django**: The web framework for perfectionists with deadlines
-- **PostgreSQL**: The world's most advanced open source database
+- **PostgreSQL/SQLLite**: The world's most advanced open source database
 - **CSS Grid & Flexbox**: Modern CSS layout techniques
 - **Django Documentation**: Comprehensive guides and best practices
 
