@@ -2,7 +2,7 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn robotics_planner.wsgi"
+startCommand = "chmod +x start.sh && ./start.sh"
 healthcheckPath = "/"
 healthcheckTimeout = 300
 restartPolicyType = "always" 

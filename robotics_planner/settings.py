@@ -13,7 +13,14 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-import dj_database_url
+
+# Try to import dj_database_url, handle gracefully if not available
+try:
+    import dj_database_url
+    HAS_DJ_DATABASE_URL = True
+except ImportError:
+    HAS_DJ_DATABASE_URL = False
+    print("Warning: dj_database_url not available, using fallback database configuration")
 
 # Load environment variables from .env file
 load_dotenv()
@@ -87,7 +94,7 @@ WSGI_APPLICATION = "robotics_planner.wsgi.application"
 # Use DATABASE_URL for production (Heroku, etc.) or fall back to individual environment variables
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-if DATABASE_URL:
+if DATABASE_URL and HAS_DJ_DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL)
     }
