@@ -33,17 +33,23 @@ def main():
     print(f"PORT: {port}")
     print(f"RENDER: {render}")
     print(f"DATABASE_URL present: {'yes' if database_url else 'no'}")
+    if database_url:
+        print(f"DATABASE_URL starts with: {database_url[:30]}...")
     
     # Run migrations
     if not run_command("python manage.py migrate --noinput", "database migrations"):
-        sys.exit(1)
+        print("Migration failed, trying to continue anyway...")
+    
+    # Test database connectivity
+    if not run_command("python test_db_connection.py", "database connectivity test"):
+        print("Database test failed, but continuing...")
     
     # Run production setup
     if not run_command("python manage.py setup_production", "production setup"):
         print("Warning: Production setup failed, continuing anyway...")
     
     # Start gunicorn
-    gunicorn_cmd = f"gunicorn robotics_planner.wsgi:application --bind 0.0.0.0:{port} --workers 1 --timeout 120"
+    gunicorn_cmd = f"gunicorn robotics_planner.wsgi:application --bind 0.0.0.0:{port} --workers 1 --timeout 120 --log-level info"
     print(f"Starting server: {gunicorn_cmd}")
     
     # Use exec to replace the current process
@@ -52,7 +58,8 @@ def main():
         "robotics_planner.wsgi:application",
         "--bind", f"0.0.0.0:{port}",
         "--workers", "1",
-        "--timeout", "120"
+        "--timeout", "120",
+        "--log-level", "info"
     ])
 
 if __name__ == "__main__":
