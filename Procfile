@@ -1,1 +1,1 @@
-web: python run_production.py 
+web: gunicorn robotics_planner.wsgi:application 

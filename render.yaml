@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: roboticsprojectplanner
+    env: python
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: python run_production.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DEBUG
+        value: false
