@@ -1,1 +1,1 @@
-web: bash start_production.sh 
+web: python run_production.py 
