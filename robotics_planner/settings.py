@@ -129,10 +129,15 @@ WSGI_APPLICATION = "robotics_planner.wsgi.application"
 # Use DATABASE_URL for production (Heroku, etc.) or fall back to individual environment variables
 DATABASE_URL = os.getenv('DATABASE_URL')
 
+# Debug: Print database configuration info
+print(f"DATABASE_URL present: {bool(DATABASE_URL)}")
+print(f"HAS_DJ_DATABASE_URL: {HAS_DJ_DATABASE_URL}")
+
 if DATABASE_URL and HAS_DJ_DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL)
     }
+    print("Using DATABASE_URL for database configuration")
 else:
     # PostgreSQL configuration using environment variables
     DATABASES = {
@@ -145,6 +150,7 @@ else:
             "PORT": os.getenv('DATABASE_PORT', '5432'),
         }
     }
+    print(f"Using individual env vars - DB: {DATABASES['default']['NAME']}, Host: {DATABASES['default']['HOST']}")
 
 
 # Password validation
