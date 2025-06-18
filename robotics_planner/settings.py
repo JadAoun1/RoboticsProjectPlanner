@@ -22,8 +22,14 @@ except ImportError:
     HAS_DJ_DATABASE_URL = False
     print("Warning: dj_database_url not available, using fallback database configuration")
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from .env file (only in development)
+# In production, environment variables should be set by the platform
+if not os.getenv('RENDER'):  # Render sets this environment variable
+    load_dotenv()
+
+# Debug: Print environment info
+print(f"RENDER environment variable: {os.getenv('RENDER')}")
+print(f"DEBUG environment variable: {os.getenv('DEBUG')}")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,11 +42,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-development-key-change-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
+# Default to False for production safety, only True if explicitly set
+DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes', 'on')
+
+# Debug: Print DEBUG value and reasoning
+print(f"DEBUG setting: {DEBUG} (from env: '{os.getenv('DEBUG', 'Not Set')}')")
 
 # ALLOWED_HOSTS configuration
 if DEBUG:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+    print("Using development ALLOWED_HOSTS")
 else:
     # Production: Allow specific domains and common deployment platforms
     ALLOWED_HOSTS = [
