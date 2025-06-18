@@ -20,7 +20,7 @@ As someone who's struggled with project organization in the past, I designed Rob
 
 ## Getting Started
 
-**Try RoboPlanner Live**: [https://roboticsprojectplanner.onrender.com](https://roboticsprojectplanner.onrender.com)
+**Try RoboPlanner Live**: [https://roboticsprojectplanner.onrender.com/accounts/login/](https://roboticsprojectplanner.onrender.com/accounts/login/)
 
 ### Quick Start Guide
 
