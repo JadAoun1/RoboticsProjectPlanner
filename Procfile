@@ -1,1 +1,1 @@
-web: gunicorn robotics_planner.wsgi --log-file - 
+web: bash start_production.sh 
