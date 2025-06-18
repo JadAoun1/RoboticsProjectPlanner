@@ -20,13 +20,33 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f'Database connection failed: {e}'))
             return
         
+        # Check if auth_user table exists
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'auth_user')")
+                auth_user_exists = cursor.fetchone()[0]
+                if auth_user_exists:
+                    self.stdout.write(self.style.SUCCESS('auth_user table exists'))
+                else:
+                    self.stdout.write(self.style.WARNING('auth_user table does not exist - migrations needed'))
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f'Could not check auth_user table: {e}'))
+        
         # Run migrations
         try:
             self.stdout.write('Running database migrations...')
-            call_command('migrate', verbosity=0)
+            call_command('migrate', verbosity=2)
             self.stdout.write(self.style.SUCCESS('Migrations completed'))
         except Exception as e:
             self.stdout.write(self.style.ERROR(f'Migration failed: {e}'))
+            return
+        
+        # Verify User model works
+        try:
+            user_count = User.objects.count()
+            self.stdout.write(self.style.SUCCESS(f'User model accessible - current count: {user_count}'))
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f'User model not accessible: {e}'))
             return
         
         # Create superuser if it doesn't exist
