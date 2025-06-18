@@ -45,19 +45,21 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-development-key-change-in-
 # Default to False for production safety, only True if explicitly set
 DEBUG = os.getenv('DEBUG', 'False').lower() in ('true', '1', 'yes', 'on')
 
+# Override: Force DEBUG=False on Render platform for production deployment
+if os.getenv('RENDER'):
+    DEBUG = False
+    print("Render platform detected: Forcing DEBUG=False for production")
+
 # Debug: Print DEBUG value and reasoning
-print(f"DEBUG setting: {DEBUG} (from env: '{os.getenv('DEBUG', 'Not Set')}')")
+print(f"Final DEBUG setting: {DEBUG} (from env: '{os.getenv('DEBUG', 'Not Set')}')")
 
 # ALLOWED_HOSTS configuration
 if DEBUG:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
     print("Using development ALLOWED_HOSTS")
 else:
-    # Production: Allow all hosts temporarily to debug the issue
-    ALLOWED_HOSTS = ['*']  # Allow all hosts in production for now
-    
-    # Also try specific domains (backup)
-    specific_hosts = [
+    # Production: Allow specific domains and common deployment platforms
+    ALLOWED_HOSTS = [
         'localhost',
         '127.0.0.1',
         'roboticsprojectplanner.onrender.com',  # Specific Render domain
@@ -68,11 +70,10 @@ else:
     # Add any additional hosts from environment variable
     additional_hosts = os.getenv('ALLOWED_HOSTS', '')
     if additional_hosts:
-        specific_hosts.extend([host.strip() for host in additional_hosts.split(',') if host.strip()])
+        ALLOWED_HOSTS.extend([host.strip() for host in additional_hosts.split(',') if host.strip()])
     
     # Debug: Print ALLOWED_HOSTS in production logs
     print(f"Production ALLOWED_HOSTS: {ALLOWED_HOSTS}")
-    print(f"Specific hosts (backup): {specific_hosts}")
 
 
 # Application definition
