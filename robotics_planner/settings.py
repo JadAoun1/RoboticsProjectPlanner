@@ -139,18 +139,28 @@ if DATABASE_URL and HAS_DJ_DATABASE_URL:
     }
     print("Using DATABASE_URL for database configuration")
 else:
-    # PostgreSQL configuration using environment variables
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.getenv('DATABASE_NAME', 'robotics_planner'),
-            "USER": os.getenv('DATABASE_USER', 'postgres'),
-            "PASSWORD": os.getenv('DATABASE_PASSWORD', ''),
-            "HOST": os.getenv('DATABASE_HOST', 'localhost'),
-            "PORT": os.getenv('DATABASE_PORT', '5432'),
+    # Check if we're on Render but don't have DATABASE_URL - use SQLite as fallback
+    if os.getenv('RENDER') and not DATABASE_URL:
+        print("RENDER detected but no DATABASE_URL - using SQLite fallback for demo")
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
         }
-    }
-    print(f"Using individual env vars - DB: {DATABASES['default']['NAME']}, Host: {DATABASES['default']['HOST']}")
+    else:
+        # PostgreSQL configuration using environment variables
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.postgresql",
+                "NAME": os.getenv('DATABASE_NAME', 'robotics_planner'),
+                "USER": os.getenv('DATABASE_USER', 'postgres'),
+                "PASSWORD": os.getenv('DATABASE_PASSWORD', ''),
+                "HOST": os.getenv('DATABASE_HOST', 'localhost'),
+                "PORT": os.getenv('DATABASE_PORT', '5432'),
+            }
+        }
+        print(f"Using individual env vars - DB: {DATABASES['default']['NAME']}, Host: {DATABASES['default']['HOST']}")
 
 
 # Password validation
