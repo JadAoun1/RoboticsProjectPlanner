@@ -53,8 +53,11 @@ if DEBUG:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
     print("Using development ALLOWED_HOSTS")
 else:
-    # Production: Allow specific domains and common deployment platforms
-    ALLOWED_HOSTS = [
+    # Production: Allow all hosts temporarily to debug the issue
+    ALLOWED_HOSTS = ['*']  # Allow all hosts in production for now
+    
+    # Also try specific domains (backup)
+    specific_hosts = [
         'localhost',
         '127.0.0.1',
         'roboticsprojectplanner.onrender.com',  # Specific Render domain
@@ -65,10 +68,11 @@ else:
     # Add any additional hosts from environment variable
     additional_hosts = os.getenv('ALLOWED_HOSTS', '')
     if additional_hosts:
-        ALLOWED_HOSTS.extend([host.strip() for host in additional_hosts.split(',') if host.strip()])
+        specific_hosts.extend([host.strip() for host in additional_hosts.split(',') if host.strip()])
     
     # Debug: Print ALLOWED_HOSTS in production logs
     print(f"Production ALLOWED_HOSTS: {ALLOWED_HOSTS}")
+    print(f"Specific hosts (backup): {specific_hosts}")
 
 
 # Application definition
