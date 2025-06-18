@@ -1,14 +1,11 @@
 # RoboPlanner - Your Ultimate Robotics Project Companion
 
-![RoboPlanner Screenshot](https://roboticsprojectplanner.onrender.com/accounts/login/)
+![Screenshot 2025-06-17 222519](https://github.com/user-attachments/assets/4bf46566-bd56-4221-9bc2-37250610ebd7)
 
-_Screenshot: RoboPlanner's clean and intuitive login interface_
 
 ## About RoboPlanner
 
-Have you ever started a robotics project only to lose track of all the components you need, the tools required, or how much you're actually spending? I built RoboPlanner because I was tired of using scattered spreadsheets and sticky notes to manage my robotics builds.
-
-RoboPlanner is a comprehensive web application designed specifically for robotics enthusiasts, students, and professionals who want to stay organized throughout their project journey. Whether you're building your first Arduino-based robot or developing a complex autonomous system, RoboPlanner keeps everything in one place so you can focus on what matters most - building amazing robots.
+RoboPlanner is a web application designed specifically for robotics enthusiasts, students, and professionals who want to stay organized throughout their project journey. Whether you're building your first Arduino-based robot or developing a complex autonomous system, RoboPlanner keeps everything in one place so you can focus on what matters most - building amazing robots.
 
 ### What Makes RoboPlanner Special?
 
@@ -23,9 +20,7 @@ As someone who's struggled with project organization in the past, I designed Rob
 
 ## Getting Started
 
-🚀 **Try RoboPlanner Live**: [https://roboticsprojectplanner.onrender.com](https://roboticsprojectplanner.onrender.com)
-
-📋 **Planning Materials**: This project was developed as part of a Django web development course, focusing on creating a full-stack application with user authentication, CRUD functionality, and responsive design.
+**Try RoboPlanner Live**: [https://roboticsprojectplanner.onrender.com](https://roboticsprojectplanner.onrender.com)
 
 ### Quick Start Guide
 
@@ -39,7 +34,7 @@ As someone who's struggled with project organization in the past, I designed Rob
 
 ## Attributions
 
-This project was built with the help of several excellent open-source technologies and resources:
+This project was built with the help of these open-source technologies and resources:
 
 - **[Django](https://djangoproject.com/)** - The web framework that powers RoboPlanner's backend
 - **[PostgreSQL](https://postgresql.org/)** - Robust database management for secure data storage
@@ -53,16 +48,14 @@ This project was built with the help of several excellent open-source technologi
 **Backend:**
 
 - Python 3.12
-- Django 5.2 (Web Framework)
-- PostgreSQL (Database)
+- Django 5.2 
+- PostgreSQL
 - Django's built-in authentication system
 
 **Frontend:**
 
 - HTML5 & CSS3
-- CSS Grid & Flexbox for responsive layouts
 - Django Templates for server-side rendering
-- Vanilla JavaScript for enhanced interactivity
 
 **Deployment & Production:**
 
@@ -72,8 +65,6 @@ This project was built with the help of several excellent open-source technologi
 - Environment-based configuration management
 
 ## Next Steps: Planned Enhancements
-
-I'm excited about the future of RoboPlanner! Here's what's coming next:
 
 ### Phase 1: Enhanced User Experience
 
@@ -107,5 +98,3 @@ I'm excited about the future of RoboPlanner! Here's what's coming next:
 - [ ] **Integration APIs**: Connect with CAD software, inventory systems, and procurement tools
 
 ---
-
-_Built with ❤️ for the robotics community. Happy building!_
