@@ -132,12 +132,17 @@ DATABASE_URL = os.getenv('DATABASE_URL')
 # Debug: Print database configuration info
 print(f"DATABASE_URL present: {bool(DATABASE_URL)}")
 print(f"HAS_DJ_DATABASE_URL: {HAS_DJ_DATABASE_URL}")
+if DATABASE_URL:
+    print(f"DATABASE_URL starts with: {DATABASE_URL[:20]}...")
 
 if DATABASE_URL and HAS_DJ_DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL)
     }
     print("Using DATABASE_URL for database configuration")
+    print(f"Database ENGINE: {DATABASES['default']['ENGINE']}")
+    print(f"Database NAME: {DATABASES['default']['NAME']}")
+    print(f"Database HOST: {DATABASES['default']['HOST']}")
 else:
     # Check if we're on Render but don't have DATABASE_URL - use SQLite as fallback
     if os.getenv('RENDER') and not DATABASE_URL:
@@ -148,6 +153,7 @@ else:
                 'NAME': BASE_DIR / 'db.sqlite3',
             }
         }
+        print(f"SQLite database path: {DATABASES['default']['NAME']}")
     else:
         # PostgreSQL configuration using environment variables
         DATABASES = {
