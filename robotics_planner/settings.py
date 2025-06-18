@@ -38,7 +38,16 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-development-key-change-in-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Allow all hosts in production, or use specific hosts from environment
+if DEBUG:
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+else:
+    # Production hosts - include common deployment platforms
+    default_hosts = 'localhost,127.0.0.1,.onrender.com,.herokuapp.com,.railway.app'
+    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default_hosts).split(',')
+    # Add specific Render domain
+    if 'roboticsprojectplanner.onrender.com' not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append('roboticsprojectplanner.onrender.com')
 
 
 # Application definition

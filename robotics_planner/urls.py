@@ -26,8 +26,13 @@ urlpatterns = [
     path("", RedirectView.as_view(url="/accounts/login/", permanent=False)),
 ]
 
-# Add browser reload URL for development
+# Add browser reload URL for development (only if package is available)
 if __debug__:
-    urlpatterns += [
-        path("__reload__/", include("django_browser_reload.urls")),
-    ]
+    try:
+        import django_browser_reload.urls
+        urlpatterns += [
+            path("__reload__/", include("django_browser_reload.urls")),
+        ]
+    except ImportError:
+        # django_browser_reload not available, skip adding the URL
+        pass
